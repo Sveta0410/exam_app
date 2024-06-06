@@ -1,9 +1,10 @@
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Optional, Type
 
 from fastapi import Depends
-from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
-from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlalchemy import String, Boolean, Column, TEXT, Integer
+from fastapi_users.db import SQLAlchemyUserDatabase
+from fastapi_users.models import UP
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable, SQLAlchemyBaseOAuthAccountTable
+from sqlalchemy import String, Boolean, Column, TEXT, Integer, select, func
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -18,11 +19,11 @@ class Base(DeclarativeBase):
 
 class Pers(SQLAlchemyBaseUserTable[int], Base):
     __tablename__ = "pers"
-    
+
     id = Column(Integer, primary_key=True)
-    FIO = Column(TEXT)
+    FIO = Column(TEXT, unique=True, index=True, nullable=False)
     email = Column(
-        String(length=320), unique=True, index=True, nullable=False
+        String(length=320)
     )
     hashed_password = Column(
         String(length=1024), nullable=False
@@ -36,6 +37,15 @@ class Pers(SQLAlchemyBaseUserTable[int], Base):
     )
 
 
+class MySQLAlchemyUserDatabase(SQLAlchemyUserDatabase):
+    async def get_by_fio(self, fio: str) -> Optional[UP]:
+        statement = select(self.user_table).where(
+            func.lower(self.user_table.FIO) == func.lower(fio)
+        )
+        return await self._get_user(statement)
+    pass
+
+
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
@@ -46,4 +56,4 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
-    yield SQLAlchemyUserDatabase(session, Pers)
+    yield MySQLAlchemyUserDatabase(session, Pers)
