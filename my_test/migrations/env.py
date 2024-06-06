@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from config import DB_PATH
-from models.models22 import metadata
+from models.models import metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -19,6 +19,7 @@ config.set_section_option(section, "DB_PATH", DB_PATH)
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
 
 # add your model's MetaData object here
 # for 'autogenerate' support
