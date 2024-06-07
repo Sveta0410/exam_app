@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from my_test.schemas import users
-from my_test.utils import users as users_utils
+from schemas import users
+from utils import users as users_utils
 
 
 router = APIRouter()

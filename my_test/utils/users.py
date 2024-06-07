@@ -4,8 +4,8 @@ import string
 from datetime import datetime, timedelta
 from sqlalchemy import and_
 
-from my_test.models.database import database
-from my_test.models.models import tokens_table, users_table
+from main import database
+from models.models import tokens_table, pers
 from schemas import users as user_schema
 
 def get_random_string(length=12):
@@ -29,13 +29,13 @@ def validate_password(password: str, hashed_password: str):
 
 async def get_user_by_fio(fio: str):
     """ Возвращает информацию о пользователе """
-    query = users_table.select().where(users_table.c.FIO == fio)
+    query = pers.select().where(pers.c.FIO == fio)
     return await database.fetch_one(query)
 
 
 async def get_user_by_token(token: str):
     """ Возвращает информацию о владельце указанного токена """
-    query = tokens_table.join(users_table).select().where(
+    query = tokens_table.join(pers).select().where(
         and_(
             tokens_table.c.token == token,
             tokens_table.c.expires > datetime.now()
@@ -59,8 +59,8 @@ async def create_user(user: user_schema.UserCreate):
     """ Создает нового пользователя в БД """
     salt = get_random_string()
     hashed_password = hash_password(user.password, salt)
-    query = users_table.insert().values(
-        email=user.email, name=user.name, hashed_password=f"{salt}${hashed_password}"
+    query = pers.insert().values(
+        fio=user.fio, name=user.name, hashed_password=f"{salt}${hashed_password}"
     )
     user_id = await database.execute(query)
     token = await create_user_token(user_id)
