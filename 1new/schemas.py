@@ -32,7 +32,6 @@ class User(UserBase):
     id: int
     fio: str
     is_active: bool
-    items: list[Item] = []
 
     class Config:
         orm_mode = True
@@ -59,9 +58,6 @@ class TokenSchema(BaseModel):
 class TokenPayload(BaseModel):
     sub: str = None
     exp: int = None
-
-
-
 
 
 class UserOut(BaseModel):

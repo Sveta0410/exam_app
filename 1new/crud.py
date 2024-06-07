@@ -9,7 +9,7 @@ import schemas
 import os
 from datetime import datetime, timedelta
 from typing import Union, Any
-import python_jwt as jwt
+import jwt
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -43,7 +43,7 @@ def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> 
     return encoded_jwt
 
 
-def create_refresh_token(db: Session, subject: Union[str, Any], expires_delta: int = None) -> str:
+def create_refresh_token(subject: Union[str, Any], expires_delta: int = None) -> str:
     if expires_delta is not None:
         expires_delta = datetime.utcnow() + expires_delta
     else:
@@ -84,6 +84,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> schemas.Sys
 
     return schemas.SystemUser(**user)
 
+
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
@@ -103,16 +104,4 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
-
-
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
-
-
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
-    db_item = models.Item(**item.dict(), owner_id=user_id)
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return db_item
 
