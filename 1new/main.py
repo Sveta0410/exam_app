@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.annotation import Annotated
 
 import crud
 import models
@@ -21,16 +22,11 @@ app = FastAPI()
 
 
 # Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
 
 
 @app.post("/signup/", summary="Create new user", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.UserCreate, db: Session = Depends(crud.get_db)):
     db_user = crud.get_user_by_fio(db, fio=user.fio)
     if db_user:
         raise HTTPException(status_code=400, detail="fio already registered")
@@ -39,7 +35,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @app.post('/login/', summary="Create access and refresh tokens for user", response_model=TokenSchema)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(crud.get_db)):
     user = crud.get_user_by_fio(db, fio=form_data.username)
     #user = db.get(form_data.username, None)
     if user is None:
@@ -61,6 +57,12 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
     }
 
 
-@app.get('/me/', summary='Get details of currently logged in user', response_model=UserOut)
-async def get_me(user: SystemUser = Depends(get_current_user)):
-    return user
+@app.get('/me', summary='Get details of currently logged in user')
+async def get_me(current_user: UserOut = Depends(get_current_user)):
+    return {"hello, you are in secret zone"}
+# @app.get('/me/', summary='Get details of currently logged in user')
+# async def get_me(user: schemas.SystemUser = Depends(get_current_user)):
+#     return UserOut(
+#         id=user.id,
+#         fio=user.fio,
+#     )
