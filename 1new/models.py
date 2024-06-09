@@ -1,6 +1,4 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
-from typing import Annotated, Union
 from database import Base
 
 
