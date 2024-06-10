@@ -1,12 +1,16 @@
+import time
+
 from sqlalchemy.orm import Session
+from typing import Any, Callable
 
 import crud
 import models
 import schemas
 from database import SessionLocal, engine
-from fastapi import FastAPI, status, HTTPException, Depends
+from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from schemas import UserOut,  TokenSchema, SystemUser
+from fastapi.middleware.cors import CORSMiddleware
 from crud import (
     get_hashed_password,
     create_access_token,
@@ -19,6 +23,33 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:8000"
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next: Callable) -> Any:
+    start_time = time.time()
+    response = await call_next(request)
+
+    # logger.info(
+    #     f'method="{request.scope["method"]}" router="{request.scope["path"]}" '
+    #     f"process_time={round(time.time() - start_time, 3)} "
+    #     f"status_code={response.status_code}"
+    # )
+    return response
+
+@app.get("/", tags=["root"])
+async def read_root() -> dict:
+    return {"message": "Welcome to your todo list."}
 
 @app.post("/signup/", summary="Create new user", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(crud.get_db)):

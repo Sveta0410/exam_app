@@ -25,7 +25,7 @@ ALGORITHM = "HS256"
 JWT_SECRET_KEY = "os.environ['JWT_SECRET_KEY']"   # should be kept secret
 JWT_REFRESH_SECRET_KEY = "os.environ['JWT_REFRESH_SECRET_KEY']"    # should be kept secret
 
-reuseable_oauth = OAuth2PasswordBearer(
+reusable_oauth = OAuth2PasswordBearer(
     tokenUrl="/login",
     scheme_name="JWT"
 )
@@ -87,7 +87,7 @@ def get_db():
 
 
 async def get_current_user(
-    db: Session = Depends(get_db), token: str = Depends(reuseable_oauth)
+    db: Session = Depends(get_db), token: str = Depends(reusable_oauth)
 ) -> schemas.UserOut:
     try:
         payload=jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
