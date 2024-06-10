@@ -91,7 +91,7 @@ async def get_me(current_user: UserOut = Depends(get_current_user)):
 
 
 @app.get("/all")
-def all_page(request: Request, db: Session = Depends(crud.get_db)):
+def all_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depends(get_current_user)):
     all_data = db.query(models.ExamTb).all()
     return all_data
     # return {
