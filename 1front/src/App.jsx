@@ -43,6 +43,7 @@ function App() {
                 })
             )
             ]
+        setQuestionsForExam(questionsForExam)
 
       })
   }
@@ -54,8 +55,9 @@ function App() {
     <>
     <Login/>
     <Exam/>
+    <p>{questionsForExam[0].exam_tb}</p>
     <p>erurvi csdafv</p>
-    <p>{questionsForExam}</p>
+    <p>{JSON.stringify(questionsForExam)}</p>
       <div className="App">
 
         <button onClick={() => setCount((count) => count + 1)}>
