@@ -1,5 +1,6 @@
 import time
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from typing import Any, Callable
 
@@ -99,9 +100,11 @@ def all_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depends
     # }
 
 
-# @app.get("/random")
-# def random_page(db: Session = Depends(crud.get_db)):
-#     all_data = db.query(Question).all()
-#     return {
-#         "Question": choice(all_data).generate_dictionary()
-#     }
+@app.get("/random")
+def random_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depends(get_current_user)):
+    #all_data = db.query(models.ExamTb).all()
+    all_data = db.query(models.ExamTb).order_by(func.random()).first()
+    return all_data
+    # return {
+    #     "Question": choice(all_data).generate_dictionary()
+    # }
