@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 
 export const Login = () => {
-    const [fio, setFio] = useState('')
+    const [fio, setFio] = useState("")
     const [pass, setPassword] = useState('')
 
     const handleSubmit = (e) => {

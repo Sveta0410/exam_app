@@ -17,12 +17,33 @@ import {Register} from "./Register"
 import {Exam} from "./Exam"
 import axios from "axios";
 
+function getItem(label, key, icon, children, type) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  };
+}
+
 function App() {
   const [count, setCount] = useState(0)
 
+  const [questionsForExam, setQuestionsForExam] = useState([])
   const fetchQuestions = () => {
       axios.get('http://127.0.0.1:8000/r').then(r => {
         console.log('r', r)
+
+        const questionsForExam = r.data
+        const listQuestions = [
+            getItem('список вопросов', 'g1', null,
+            questionsForExam.map(c=>{
+                return {label: c.exam_tb, key: c.rightanswer}
+                })
+            )
+            ]
+
       })
   }
 
@@ -33,6 +54,8 @@ function App() {
     <>
     <Login/>
     <Exam/>
+    <p>erurvi csdafv</p>
+    <p>{questionsForExam}</p>
       <div className="App">
 
         <button onClick={() => setCount((count) => count + 1)}>
