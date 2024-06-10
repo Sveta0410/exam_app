@@ -55,10 +55,13 @@ function App() {
     <>
     <Login/>
     <Exam/>
-    <p>{questionsForExam[0].exam_tb}</p>
+
     <p>erurvi csdafv</p>
-    <p>{JSON.stringify(questionsForExam)}</p>
+{/*     <p>{JSON.stringify(questionsForExam)}</p> */}
+
+
       <div className="App">
+          {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)}
 
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
