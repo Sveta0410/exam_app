@@ -17,13 +17,13 @@ export const Login = () => {
             </div>
             <div className="input-box">
                 <label for="password">Пароль </label>
-                <input type="password" placeholder="*****" id="password" name="password"/>
+                <input type="password" id="password" name="password"/>
 
-                <input value={pass} onChange={(e)=>setPass(e.target.value)} type="password" placeholder="*****" id="password" name="password"/>
+                <input value={pass} onChange={(e)=>setPass(e.target.value)} type="password" id="password" name="password"/>
             </div>
             <button> Войти </button>
             <div className="register-link">
-                <p> Создать нового пользователя: <a href="#">Register</a></p>
+                <p>  <a href="#">Создать нового пользователя</a></p>
             </div>
 
         </form>

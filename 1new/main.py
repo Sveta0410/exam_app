@@ -109,3 +109,14 @@ def random_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depe
     # return {
     #     "Question": choice(all_data).generate_dictionary()
     # }
+
+
+@app.get("/r")
+def random_page(db: Session = Depends(crud.get_db)):
+    #all_data = db.query(models.ExamTb).all()
+    all_data = db.query(models.ExamTb).order_by(func.random()).first()
+    my_quiz = crud.get_questions(db)
+    return my_quiz
+    # return {
+    #     "Question": choice(all_data).generate_dictionary()
+    # }
