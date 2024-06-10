@@ -1,3 +1,4 @@
+
 from typing import AsyncGenerator, Optional, Type
 
 from fastapi import Depends
@@ -54,6 +55,24 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
 
-
-async def get_user_db(session: AsyncSession = Depends(get_async_session)):
-    yield MySQLAlchemyUserDatabase(session, Pers)
+# from sqlalchemy import create_engine
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker
+#
+# from config import DB_PATH
+#
+# SQLALCHEMY_DATABASE_URL =  f"sqlite+aiosqlite:///{DB_PATH}"
+# # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+# >>>>>>> 975da632c845d1c829db3142ca10bf3d94ac909d
+#
+# engine = create_engine(
+#     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+# )
+# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+#
+# <<<<<<< HEAD
+# async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+#     yield MySQLAlchemyUserDatabase(session, Pers)
+# =======
+# Base = declarative_base()
+# >>>>>>> 975da632c845d1c829db3142ca10bf3d94ac909d
