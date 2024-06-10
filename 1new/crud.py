@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jwt import InvalidTokenError
 from pydantic import ValidationError
+from sqlalchemy import func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
@@ -16,14 +17,11 @@ import jwt
 
 from database import SessionLocal
 
+from config import ALGORITHM, JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES, \
+    REFRESH_TOKEN_EXPIRE_MINUTES, NUM_Q_0, NUM_Q_1, NUM_Q_2, NUM_Q_3, NUM_Q_4, NUM_Q_5
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 30 minutes
-REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
-ALGORITHM = "HS256"
-JWT_SECRET_KEY = "os.environ['JWT_SECRET_KEY']"   # should be kept secret
-JWT_REFRESH_SECRET_KEY = "os.environ['JWT_REFRESH_SECRET_KEY']"    # should be kept secret
 
 reusable_oauth = OAuth2PasswordBearer(
     tokenUrl="/login",
@@ -69,6 +67,16 @@ def get_user_by_fio(db: Session, fio: str):
     return db.query(models.User).filter(models.User.fio == fio).first()
 
 
+def get_questions(db: Session):
+    section0 = db.query(models.ExamTb).filter(models.ExamTb.section == 0).order_by(func.random()).limit(NUM_Q_0).all()
+    section1 = db.query(models.ExamTb).filter(models.ExamTb.section == 1).order_by(func.random()).limit(NUM_Q_1).all()
+    section2 = db.query(models.ExamTb).filter(models.ExamTb.section == 2).order_by(func.random()).limit(NUM_Q_1).all()
+    section3 = db.query(models.ExamTb).filter(models.ExamTb.section == 3).order_by(func.random()).limit(NUM_Q_1).all()
+    section4 = db.query(models.ExamTb).filter(models.ExamTb.section == 4).order_by(func.random()).limit(NUM_Q_1).all()
+    section5 = db.query(models.ExamTb).filter(models.ExamTb.section == 5).order_by(func.random()).limit(NUM_Q_1).all()
+    return section0 + section1 + section2 + section3 + section4 + section5
+
+
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = user.password
     db_user = models.User(fio=user.fio, hashed_password=hashed_password)
@@ -112,3 +120,4 @@ async def get_current_user(
         id=user.id,
         fio=user.fio,
     )
+
