@@ -34,7 +34,7 @@ class ExamTb(Base):
     answer7 = Column(String)
     answer8 = Column(String)
     answer9 = Column(String)
-    right_answer = Column(Integer)
+    rightanswer = Column(Integer)
 
 
 class ExamAns(Base):

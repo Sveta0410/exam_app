@@ -9,7 +9,7 @@ import schemas
 from database import SessionLocal, engine
 from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from schemas import UserOut,  TokenSchema, SystemUser
+from schemas import UserOut, TokenSchema, SystemUser
 from fastapi.middleware.cors import CORSMiddleware
 from crud import (
     get_hashed_password,
@@ -35,6 +35,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next: Callable) -> Any:
     start_time = time.time()
@@ -47,9 +48,11 @@ async def add_process_time_header(request: Request, call_next: Callable) -> Any:
     # )
     return response
 
+
 @app.get("/", tags=["root"])
 async def read_root() -> dict:
     return {"message": "Welcome to your todo list."}
+
 
 @app.post("/signup/", summary="Create new user", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(crud.get_db)):
@@ -84,4 +87,21 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
 
 @app.get('/me', summary='Get details of currently logged in user')
 async def get_me(current_user: UserOut = Depends(get_current_user)):
-    return {"hello, you are in secret zone"}
+    return current_user
+
+
+@app.get("/all")
+def all_page(request: Request, db: Session = Depends(crud.get_db)):
+    all_data = db.query(models.ExamTb).all()
+    return all_data
+    # return {
+    #     "data": [item.generate_dictionary() for item in all_data]
+    # }
+
+
+# @app.get("/random")
+# def random_page(db: Session = Depends(crud.get_db)):
+#     all_data = db.query(Question).all()
+#     return {
+#         "Question": choice(all_data).generate_dictionary()
+#     }
