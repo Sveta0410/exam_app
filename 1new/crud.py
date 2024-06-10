@@ -70,10 +70,10 @@ def get_user_by_fio(db: Session, fio: str):
 def get_questions(db: Session):
     section0 = db.query(models.ExamTb).filter(models.ExamTb.section == 0).order_by(func.random()).limit(NUM_Q_0).all()
     section1 = db.query(models.ExamTb).filter(models.ExamTb.section == 1).order_by(func.random()).limit(NUM_Q_1).all()
-    section2 = db.query(models.ExamTb).filter(models.ExamTb.section == 2).order_by(func.random()).limit(NUM_Q_1).all()
-    section3 = db.query(models.ExamTb).filter(models.ExamTb.section == 3).order_by(func.random()).limit(NUM_Q_1).all()
-    section4 = db.query(models.ExamTb).filter(models.ExamTb.section == 4).order_by(func.random()).limit(NUM_Q_1).all()
-    section5 = db.query(models.ExamTb).filter(models.ExamTb.section == 5).order_by(func.random()).limit(NUM_Q_1).all()
+    section2 = db.query(models.ExamTb).filter(models.ExamTb.section == 2).order_by(func.random()).limit(NUM_Q_2).all()
+    section3 = db.query(models.ExamTb).filter(models.ExamTb.section == 3).order_by(func.random()).limit(NUM_Q_3).all()
+    section4 = db.query(models.ExamTb).filter(models.ExamTb.section == 4).order_by(func.random()).limit(NUM_Q_4).all()
+    section5 = db.query(models.ExamTb).filter(models.ExamTb.section == 5).order_by(func.random()).limit(NUM_Q_5).all()
     return section0 + section1 + section2 + section3 + section4 + section5
 
 
