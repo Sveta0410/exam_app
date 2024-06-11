@@ -10,6 +10,33 @@ export const Exam = () => {
     setValue(e.target.value);
   };
 
+async function fetchQuestions() {
+  const questionsForExam = await axios({
+    method: "get",
+    url: "http://127.0.0.1:8000/r",
+  }).then(res =>  res.data);
+  console.log("erivgierjnvgibjfrtbiwe4bft", questionsForExam);
+
+
+const result = Object.values(questionsForExam);
+console.log("result",  Object.values(questionsForExam[0]));
+console.log("result",  questionsForExam[0]);
+//   questionsForExam.map(c=>{
+//                 return {label: c.exam_tb, key: c.rightanswer}
+//                 })
+//   console.log("1у434к54", questionsForExam);
+  setQuestionsForExam(questionsForExam)
+//           const listQuestions = [
+//             getItem('список вопросов', 'q', null,
+//             questionsForExam.map(c=>{
+//                 return {label: c.exam_tb, key: c.rightanswer}
+//                 })
+//             )
+//             ]
+//         console.log('listQuestions', listQuestions)
+//   return questionsForExam
+//   setQuestionsForExam(result)
+}
   function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -19,68 +46,61 @@ export const Exam = () => {
     type,
   };
 }
-    const [questionsForExam, setQuestionsForExam] = useState([])
-  const fetchQuestions = () => {
-      axios.get('http://127.0.0.1:8000/r').then(r => {
-        console.log('r', r)
 
-        const questionsForExam = r.data
-        console.log('questionsForExam', questionsForExam)
-//         const listQuestions = [
-//             getItem('список вопросов', 'g1', null,
-//             questionsForExam.map(c=>{
-//                 return {label: c.exam_tb, key: c.rightanswer}
-//                 })
-//             )
-//             ]
-        setQuestionsForExam(questionsForExam)
-
-      })
-  }
-
+     const [questionsForExam, setQuestionsForExam] = useState([])
+//   const fetchQuestions = () => {
+//        axios.get('http://127.0.0.1:8000/r').then(r => {
+//         console.log('r', r)
+//
+//         const questionsForExam = r.data
+//         console.log('questionsForExam', questionsForExam)
+// //         const listQuestions = [
+// //             getItem('список вопросов', 'q', null,
+// //             questionsForExam.map(c=>{
+// //                 return {label: c.exam_tb, key: c.rightanswer}
+// //                 })
+// //             )
+// //             ]
+// //         console.log('listQuestions', listQuestions)
+//         setQuestionsForExam(questionsForExam)
+//
+//       }).catch(({response}) => {
+//
+//                     console.log(questionsForExam);
+//                 }).finally(() => {
+//                     console.log("i should go second");
+//                     setQuestionsForExam(questionsForExam)
+//                 });
+//   }
+//
+//   useEffect(() => {
+//       fetchQuestions()
+//   }, []);
   useEffect(() => {
       fetchQuestions()
   }, []);
-
    function WriteQuestion(props) {
-       const questions = props.questions;
-       console.log('questions', questions[0].answer1)
 
-       const q = [];
-       const id = [];
-       const ans0 = [];
-       const ans1 = [];
-       const ans2 = [];
-       const ans3 = [];
-       const ans4 = [];
-       const ans5 = [];
-       const ans6 = [];
-       const ans7 = [];
-       const ans8 = [];
-       const ans9 = [];
-       const r_ans = [];
 
-       questions.map(q => questions.exam_tb)
-       questions.map(id => questions.id)
-       questions.map(ans0 => questions.answer0)
-       questions.map(ans1 => questions.answer1)
-       questions.map(ans2 => questions.answer2)
-       questions.map(ans3 => questions.answer3)
-       questions.map(ans4 => questions.answer4)
-       questions.map(ans5 => questions.answer5)
-       questions.map(ans6 => questions.answer6)
-       questions.map(ans7 => questions.answer7)
-       questions.map(ans8 => questions.answer8)
-       questions.map(ans9 => questions.answer9)
-       questions.map(r_ans => questions.rightanswer)
+//        const questions = props.questions;
+    const questions = props;
+    console.log(questions.answer1);
+       console.log('questions', questions);
+       console.log(typeof questions);
+       console.log('questions.length', questions.length);
+       if (Array.isArray(questions) ){
+           console.log('questions!', questions);
+//        console.log('questionsa1', questions[0].answer1);
 
-//        const [answers, setAnswers] = useState([])
+
+
        const numAns = 0;
-       return <p>{questions.data0}</p>
+//        return <p>{questions}</p>
+console.log('questions.answer3', questions.answer3);
        if (questions.answer3 == null){
-           return <p>questions.answer3 is null</p>;
+           return <p>{questions.answer3}</p>;
        }
-        else if (questions.answer4 == null){
+        if (questions.answer4 == null){
            return <p>questions.answer4 is null</p>;
        }
         else if (questions.answer5 == null){
@@ -88,17 +108,23 @@ export const Exam = () => {
        }
         return <p>questions.answer4 </p>;
     }
-
-
+}
+// fetchQuestions()
+// console.log('questionsForExam', questionsForExam);
+// setQuestionsForExam(fetchQuestions());
+// questionsForExam = fetchQuestions()
+// fetchQuestions()
+// fetchQuestions().then(WriteQuestion())
   return (
       <>
-      <p>{questionsForExam.data0}</p>
+{/*        <p>{questionsForExam.data}</p> */}
 
 {/*       <div>{questionsForExam.map(questionsForExam => questionsForExam.answer1)}</div> */}
 {/*       {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)} */}
-      <WriteQuestion questions={questionsForExam} />
+     <WriteQuestion questions={questionsForExam} />
     <Radio.Group onChange={onChange} value={value}>
       <Space direction="vertical">
+
         <Radio value={1}>Option A</Radio>
         <Radio value={2}>Option B</Radio>
         <Radio value={3}>Option C</Radio>

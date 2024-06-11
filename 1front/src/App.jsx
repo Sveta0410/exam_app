@@ -48,9 +48,9 @@ function App() {
       })
   }
 
-  useEffect(() => {
-      fetchQuestions()
-  }, []);
+//   useEffect(() => {
+//       fetchQuestions()
+//   }, []);
 
   function WriteAns(props) {
 //       questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>
