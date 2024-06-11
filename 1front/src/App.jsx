@@ -51,6 +51,17 @@ function App() {
   useEffect(() => {
       fetchQuestions()
   }, []);
+
+  function WriteAns(props) {
+//       questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>
+        const questions = props.questions;
+      if (questionsForExam.answer4 == null){
+            return <p>questionsForExam.answer4 is null</p>;
+        }
+       return <p>questionsForExam.answer4 </p>;
+  }
+
+
   return (
     <>
     <Login/>
@@ -61,8 +72,9 @@ function App() {
 
 
       <div className="App">
-          {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)}
-
+{/*            тут была штука которая выводит все вопросы */}
+{/*           {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)} */}
+{/*          <WriteAns questions={questionsForExam} /> */}
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
