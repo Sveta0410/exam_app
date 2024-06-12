@@ -7,7 +7,12 @@ export const Exam = () => {
   const [value, setValue] = useState(null);
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
+
     setValue(e.target.value);
+    if (e.target.value === questionsForExam[questionIndex].rightanswer){
+        console.log('правильно');
+        }
+//     setQuestionIndex((questionIndex) => questionIndex + 1)
   };
 
 async function fetchQuestions() {
@@ -82,6 +87,7 @@ async function fetchQuestions() {
   }, []);
 
    const [questionIndex, setQuestionIndex] = useState(0)
+      const [questionCheck, setQuestionCheck] = useState([])
 function WriteQuestion(props) {
 
 
