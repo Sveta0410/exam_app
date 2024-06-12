@@ -88,6 +88,7 @@ async function fetchQuestions() {
 
    const [questionIndex, setQuestionIndex] = useState(0)
       const [questionCheck, setQuestionCheck] = useState([])
+//       const [ansBlock, setAnsBlock] = useState(null)
 function WriteQuestion(props) {
 
 
@@ -105,32 +106,42 @@ function WriteQuestion(props) {
 
        const numAns = 0;
        if (questions.length !== 0 && questionIndex < 20){
+
+           const questionBlock = (<p>{questions[questionIndex].exam_tb} </p>)
+//            setAnsBlock(<p>sdvb dkiik</p>)
+        const buttonsBlock = (<><Button type="primary" onClick={toggleDisabled} style={{ marginTop: 16 }} disabled={buttonDisabled}>
+        подтвердить ответ
+      </Button>
+      <Button type="primary" onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)} style={{ marginTop: 16 }} disabled={!buttonDisabled}>
+        следующий вопрос
+      </Button></>)
+
 //        return <p>{questions}</p>
 // console.log('questions.answer3', questions.answer3);
        if (questions[questionIndex].answer3 == null){
-           return        <Radio.Group onChange={onChange} value={value}>
+           return <>{questionBlock} <Radio.Group onChange={onChange} value={value} disabled={disabled}>
            <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio>
+        <Radio value={1}>{questions[questionIndex].answer1} </Radio>
+        <Radio value={2}>{questions[questionIndex].answer2} </Radio>
          </Space>
-         </Radio.Group>;
+         </Radio.Group>{buttonsBlock}</>;
        }
         if (questions[questionIndex].answer4 == null){
-           return  <> <p>{questions[questionIndex].exam_tb} </p>
-            <Radio.Group onChange={onChange} value={value}>
+           return  <> {questionBlock}
+            <Radio.Group onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
         <Radio value={1}>{questions[questionIndex].answer1}</Radio>
         <Radio value={2}>{questions[questionIndex].answer2}</Radio>
         <Radio value={3}>{questions[questionIndex].answer3}</Radio>
          </Space>
-         </Radio.Group></>;
+         </Radio.Group>{buttonsBlock}</>;
        }
         else if (questions[questionIndex].answer5 == null){
-           return <p>questions.answer5 is null</p>;
+           return <>{questionBlock}<p>questions.answer5 is null</p></>;
        }
-        return <p>questions.answer4 </p>;
+        return <p>cjkckd</p>;
     }}
 }
 // fetchQuestions()
