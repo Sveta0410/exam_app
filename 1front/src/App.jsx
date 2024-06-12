@@ -9,6 +9,8 @@
 //
 // export default App;
 import { useState, useEffect } from 'react'
+import { RouterProvider } from "react-router-dom";
+// import { router } from "./router";
 // import reactLogo from './assets/react.svg'
 
 import './App.css'
@@ -16,6 +18,7 @@ import {Login} from "./Login"
 import {Register} from "./Register"
 import {Exam} from "./Exam"
 import axios from "axios";
+
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -63,10 +66,17 @@ function App() {
 
 
   return (
+
     <>
+{/*     <RouterProvider router={router} /> */}
     <Login/>
     <Exam/>
 
+{/* <Button color="primary" className="px-4" */}
+{/*             onClick={routeChange} */}
+{/*               > */}
+{/*               Login */}
+{/*             </Button> */}
       <div className="App">
 {/*            тут была штука которая выводит все вопросы */}
 {/*           {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)} */}

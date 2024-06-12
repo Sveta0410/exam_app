@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import { Link } from "react-router-dom";
 
 export const Login = () => {
     const [fio, setFio] = useState("")
@@ -10,7 +11,7 @@ export const Login = () => {
         }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <><form onSubmit={handleSubmit}>
             <div className="input-box">
                 <label htmlFor="fio">ФИО </label>
                 <input type="text" placeholder="Иванов Иван Иванович" id="fio" name="fio"/>
@@ -27,5 +28,18 @@ export const Login = () => {
             </div>
 
         </form>
+{/*         <br /> */}
+{/*         <ul> */}
+{/*                 <li> */}
+{/*                     Endpoint to route to Home component */}
+{/*                     <Link to="/">Home</Link> */}
+{/*                 </li> */}
+{/*                 <li> */}
+{/*                     Endpoint to route to About component */}
+{/*                     <Link to="/exam">exam</Link> */}
+{/*                 </li> */}
+
+{/*             </ul> */}
+            </>
         )
     }

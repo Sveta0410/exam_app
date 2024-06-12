@@ -124,7 +124,7 @@ function WriteQuestion(props) {
               type="success"
               showIcon
             />)
-                console.log('AAAAAAAAAAAAAAAAAAA');
+//                 console.log('AAAAAAAAAAAAAAAAAAA');
                 }
             else {
                 const key = `answer${questionsForExam[questionIndex].rightanswer}`
