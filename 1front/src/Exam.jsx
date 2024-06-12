@@ -106,13 +106,13 @@ function WriteQuestion(props) {
 
        const numAns = 0;
        if (questions.length !== 0 && questionIndex < 20){
-
+//         toggleDisabledNextQ()
            const questionBlock = (<p>{questions[questionIndex].exam_tb} </p>)
 //            setAnsBlock(<p>sdvb dkiik</p>)
         const buttonsBlock = (<><Button type="primary" onClick={toggleDisabled} style={{ marginTop: 16 }} disabled={buttonDisabled}>
         подтвердить ответ
       </Button>
-      <Button type="primary" onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)} style={{ marginTop: 16 }} disabled={!buttonDisabled}>
+      <Button type="primary" onClick={toggleDisabledNextQ} style={{ marginTop: 16 }} disabled={!buttonDisabled}>
         следующий вопрос
       </Button></>)
 
@@ -121,7 +121,6 @@ function WriteQuestion(props) {
        if (questions[questionIndex].answer3 == null){
            return <>{questionBlock} <Radio.Group onChange={onChange} value={value} disabled={disabled}>
            <Space direction="vertical">
-
         <Radio value={1}>{questions[questionIndex].answer1} </Radio>
         <Radio value={2}>{questions[questionIndex].answer2} </Radio>
          </Space>
@@ -156,6 +155,13 @@ function WriteQuestion(props) {
   const toggleDisabled = () => {
     setDisabled(!disabled);
     setButtonDisabled(true)
+  };
+
+  const toggleDisabledNextQ = () => {
+    setDisabled(false);
+    setButtonDisabled(false)
+     setQuestionIndex((questionIndex) => questionIndex + 1)
+     setValue(null);
   };
   return (
       <>
