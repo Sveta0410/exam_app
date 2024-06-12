@@ -80,6 +80,8 @@ async function fetchQuestions() {
   useEffect(() => {
       fetchQuestions()
   }, []);
+
+   const [questionIndex, setQuestionIndex] = useState(0)
 function WriteQuestion(props) {
 
 
@@ -96,30 +98,30 @@ function WriteQuestion(props) {
 
 
        const numAns = 0;
-       if (questions.length !== 0){
+       if (questions.length !== 0 && questionIndex < 20){
 //        return <p>{questions}</p>
 // console.log('questions.answer3', questions.answer3);
-       if (questions[0].answer3 == null){
+       if (questions[questionIndex].answer3 == null){
            return        <Radio.Group onChange={onChange} value={value}>
            <Space direction="vertical">
 
-        <Radio value={1}>{questions[0].answer1}</Radio>
-        <Radio value={2}>{questions[0].answer2}</Radio>
+        <Radio value={1}>{questions[questionIndex].answer1}</Radio>
+        <Radio value={2}>{questions[questionIndex].answer2}</Radio>
          </Space>
          </Radio.Group>;
        }
-        if (questions[0].answer4 == null){
-           return  <> <p>{questions[0].exam_tb} </p>
+        if (questions[questionIndex].answer4 == null){
+           return  <> <p>{questions[questionIndex].exam_tb} </p>
             <Radio.Group onChange={onChange} value={value}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[0].answer1}</Radio>
-        <Radio value={2}>{questions[0].answer2}</Radio>
-        <Radio value={3}>{questions[0].answer3}</Radio>
+        <Radio value={1}>{questions[questionIndex].answer1}</Radio>
+        <Radio value={2}>{questions[questionIndex].answer2}</Radio>
+        <Radio value={3}>{questions[questionIndex].answer3}</Radio>
          </Space>
          </Radio.Group></>;
        }
-        else if (questions[0].answer5 == null){
+        else if (questions[questionIndex].answer5 == null){
            return <p>questions.answer5 is null</p>;
        }
         return <p>questions.answer4 </p>;
@@ -131,6 +133,7 @@ function WriteQuestion(props) {
 // questionsForExam = fetchQuestions()
 // fetchQuestions()
 // fetchQuestions().then(WriteQuestion())
+
   return (
       <>
 {/*        <p>{questionsForExam.data}</p> */}
@@ -138,14 +141,18 @@ function WriteQuestion(props) {
 {/*       <div>{questionsForExam.map(questionsForExam => questionsForExam.answer1)}</div> */}
 {/*       {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)} */}
      <WriteQuestion questions={questionsForExam} />
-    <Radio.Group onChange={onChange} value={value}>
-      <Space direction="vertical">
+{/*     <Radio.Group onChange={onChange} value={value}> */}
+{/*       <Space direction="vertical"> */}
 
-        <Radio value={1}>Option A</Radio>
-        <Radio value={2}>Option B</Radio>
-        <Radio value={3}>Option C</Radio>
-      </Space>
-    </Radio.Group>
+{/*         <Radio value={1}>Option A</Radio> */}
+{/*         <Radio value={2}>Option B</Radio> */}
+{/*         <Radio value={3}>Option C</Radio> */}
+{/*       </Space> */}
+{/*     </Radio.Group> */}
+       <p></p>
+    <button onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)}>
+          index is {questionIndex}
+    </button>
     </>
   );
 }
