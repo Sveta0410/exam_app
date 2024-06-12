@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import { Input, Radio, Space, Button } from 'antd';
+import { Input, Radio, Space, Button, Alert } from 'antd';
 import axios from "axios";
 
 
@@ -88,7 +88,8 @@ async function fetchQuestions() {
 
    const [questionIndex, setQuestionIndex] = useState(0)
       const [questionCheck, setQuestionCheck] = useState([])
-//       const [ansBlock, setAnsBlock] = useState(null)
+
+      const [ansBlock, setAnsBlock] = useState(null)
 function WriteQuestion(props) {
 
 
@@ -119,26 +120,35 @@ function WriteQuestion(props) {
 //        return <p>{questions}</p>
 // console.log('questions.answer3', questions.answer3);
        if (questions[questionIndex].answer3 == null){
-           return <>{questionBlock} <Radio.Group onChange={onChange} value={value} disabled={disabled}>
+           return <>{questionBlock} <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled} >
            <Space direction="vertical">
-        <Radio value={1}>{questions[questionIndex].answer1} </Radio>
+        <Radio value={1}>{questions[questionIndex].answer1}  </Radio>
         <Radio value={2}>{questions[questionIndex].answer2} </Radio>
          </Space>
-         </Radio.Group>{buttonsBlock}</>;
+         </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
         if (questions[questionIndex].answer4 == null){
            return  <> {questionBlock}
-            <Radio.Group onChange={onChange} value={value} disabled={disabled}>
+            <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
         <Radio value={1}>{questions[questionIndex].answer1}</Radio>
         <Radio value={2}>{questions[questionIndex].answer2}</Radio>
         <Radio value={3}>{questions[questionIndex].answer3}</Radio>
          </Space>
-         </Radio.Group>{buttonsBlock}</>;
+         </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
         else if (questions[questionIndex].answer5 == null){
-           return <>{questionBlock}<p>questions.answer5 is null</p></>;
+           return  <> {questionBlock}
+            <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
+               <Space direction="vertical">
+
+        <Radio value={1}>{questions[questionIndex].answer1}</Radio>
+        <Radio value={2}>{questions[questionIndex].answer2}</Radio>
+        <Radio value={3}>{questions[questionIndex].answer3}</Radio>
+        <Radio value={4}>{questions[questionIndex].answer4}</Radio>
+         </Space>
+         </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
         return <p>cjkckd</p>;
     }}
@@ -149,6 +159,18 @@ function WriteQuestion(props) {
 // questionsForExam = fetchQuestions()
 // fetchQuestions()
 // fetchQuestions().then(WriteQuestion())
+//  const handleColorChange = () => {
+//   const radio = document.querySelector('.ant-radio-wrapper-checked input[type="radio"]'); // Находим выбранную Radio кнопку
+//   if (radio) {
+//     const radioInner = radio.querySelector('.ant-radio-inner'); // Находим элемент внутри Radio кнопки
+//     if (value === 1) { // Проверяем выбранное значение
+//       radioInner.style.backgroundColor = 'red'; // Устанавливаем красный цвет для кнопки
+//     } else {
+//       radioInner.style.backgroundColor = ''; // Сбрасываем цвет, если значение не равно 1
+//     }
+//   }
+// };
+
   const [disabled, setDisabled] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -156,7 +178,26 @@ function WriteQuestion(props) {
       if (value !== null){
             setDisabled(!disabled);
             setButtonDisabled(true)
-
+//             handleColorChange()
+    if (value === questionsForExam[questionIndex].rightanswer){
+        setAnsBlock(<Alert
+      message="Верно"
+      description="Можете перейти к следующему вопросу"
+      type="success"
+      showIcon
+    />)
+        console.log('AAAAAAAAAAAAAAAAAAA');
+        }
+    else {
+        const key = `answer${questionsForExam[questionIndex].rightanswer}`
+        const my_info = `Правильный ответ ${questionsForExam[questionIndex].rightanswer}: ${questionsForExam[questionIndex][key]} `
+//         const info = ("Правильный ответ:" + {questionsForExam[questionIndex].rightanswer});
+        setAnsBlock(<Alert
+      message="Неверно"
+      description={my_info}
+      type="error"
+      showIcon
+    />)}
     }
   };
 
@@ -165,6 +206,7 @@ function WriteQuestion(props) {
     setButtonDisabled(false)
      setQuestionIndex((questionIndex) => questionIndex + 1)
      setValue(null);
+     setAnsBlock(<p></p>)
   };
   return (
       <>
