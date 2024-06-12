@@ -67,17 +67,11 @@ function App() {
     <Login/>
     <Exam/>
 
-    <p>erurvi csdafv</p>
-{/*     <p>{JSON.stringify(questionsForExam)}</p> */}
-
-
       <div className="App">
 {/*            тут была штука которая выводит все вопросы */}
 {/*           {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)} */}
 {/*          <WriteAns questions={questionsForExam} /> */}
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+
       </div>
     </>
   )
