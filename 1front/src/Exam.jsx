@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react"
-import { Input, Radio, Space, Button, Alert } from 'antd';
+import { Input, Radio, Space, Button, Alert, message  } from 'antd';
 import axios from "axios";
 
 
 export const Exam = () => {
   const [value, setValue] = useState(null);
+  const [messageApi, contextHolder] = message.useMessage();
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
@@ -62,7 +63,7 @@ function WriteQuestion(props) {
 
 
        if (questions[questionIndex].answer3 == null){
-           return <>{questionBlock} <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled} >
+           return <>{contextHolder}{questionBlock} <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled} >
            <Space direction="vertical">
         <Radio value={1}>{questions[questionIndex].answer1}  </Radio>
         <Radio value={2}>{questions[questionIndex].answer2} </Radio>
@@ -70,7 +71,7 @@ function WriteQuestion(props) {
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
         if (questions[questionIndex].answer4 == null){
-           return  <> {questionBlock}
+           return  <> {contextHolder}{questionBlock}
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
@@ -81,7 +82,7 @@ function WriteQuestion(props) {
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
         else if (questions[questionIndex].answer5 == null){
-           return  <> {questionBlock}
+           return  <> {contextHolder}{questionBlock}
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
@@ -93,7 +94,7 @@ function WriteQuestion(props) {
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
         else if (questions[questionIndex].answer6 == null){
-           return  <> {questionBlock}
+           return  <> {contextHolder}{questionBlock}
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
@@ -116,25 +117,26 @@ function WriteQuestion(props) {
       if (value !== null){
             setDisabled(!disabled);
             setButtonDisabled(true)
-    if (value === questionsForExam[questionIndex].rightanswer){
-        setAnsBlock(<Alert
-      message="Верно"
-      description="Можете перейти к следующему вопросу"
-      type="success"
-      showIcon
-    />)
-        console.log('AAAAAAAAAAAAAAAAAAA');
-        }
-    else {
-        const key = `answer${questionsForExam[questionIndex].rightanswer}`
-        const my_info = `Правильный ответ ${questionsForExam[questionIndex].rightanswer}: ${questionsForExam[questionIndex][key]} `
-        setAnsBlock(<Alert
-      message="Неверно"
-      description={my_info}
-      type="error"
-      showIcon
-    />)}
+            if (value === questionsForExam[questionIndex].rightanswer){
+                setAnsBlock(<Alert
+              message="Верно"
+              description="Можете перейти к следующему вопросу"
+              type="success"
+              showIcon
+            />)
+                console.log('AAAAAAAAAAAAAAAAAAA');
+                }
+            else {
+                const key = `answer${questionsForExam[questionIndex].rightanswer}`
+                const my_info = `Правильный ответ ${questionsForExam[questionIndex].rightanswer}: ${questionsForExam[questionIndex][key]} `
+                setAnsBlock(<Alert
+              message="Неверно"
+              description={my_info}
+              type="error"
+              showIcon
+            />)}
     }
+    else {messageApi.info('Пожалуйста, выберите один из вариантов ответа');}
   };
 
   const toggleDisabledNextQ = () => {
