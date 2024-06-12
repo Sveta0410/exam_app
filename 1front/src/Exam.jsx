@@ -109,7 +109,7 @@ function WriteQuestion(props) {
 //         toggleDisabledNextQ()
            const questionBlock = (<p>{questions[questionIndex].exam_tb} </p>)
 //            setAnsBlock(<p>sdvb dkiik</p>)
-        const buttonsBlock = (<><Button type="primary" onClick={toggleDisabled} style={{ marginTop: 16 }} disabled={buttonDisabled}>
+        const buttonsBlock = (<><Button type="primary" onClick={toggleDisabledCheck} style={{ marginTop: 16 }} disabled={buttonDisabled}>
         подтвердить ответ
       </Button>
       <Button type="primary" onClick={toggleDisabledNextQ} style={{ marginTop: 16 }} disabled={!buttonDisabled}>
@@ -152,10 +152,12 @@ function WriteQuestion(props) {
   const [disabled, setDisabled] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const toggleDisabled = () => {
+  const toggleDisabledCheck = () => {
       if (value !== null){
-    setDisabled(!disabled);
-    setButtonDisabled(true)}
+            setDisabled(!disabled);
+            setButtonDisabled(true)
+
+    }
   };
 
   const toggleDisabledNextQ = () => {
@@ -179,23 +181,7 @@ function WriteQuestion(props) {
 {/*         <Radio value={3}>Option C</Radio> */}
 {/*       </Space> */}
 {/*     </Radio.Group> */}
-   <p>--------------</p>
- <>
-      <Radio  disabled={disabled}>
-        Disabled
-      </Radio>
-      <Radio  disabled={disabled}>
-        Disabled
-      </Radio>
-      <br />
-      <Button type="primary" onClick={toggleDisabled} style={{ marginTop: 16 }} disabled={buttonDisabled}>
-        подтвердить ответ
-      </Button>
-      <Button type="primary" onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)} style={{ marginTop: 16 }} disabled={!buttonDisabled}>
-        следующий вопрос
-      </Button>
-    </>
-  <p>---------</p>
+
     <button onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)}>
           подтвердить ответ {questionIndex}
     </button>
