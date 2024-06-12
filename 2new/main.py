@@ -64,13 +64,20 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect fio or password"
         )
-    create_access_token(user.fio)
-    create_refresh_token(user.fio)
+    # create_access_token(user.fio)
+    # create_refresh_token(user.fio)
     # return {
     #     "access_token": create_access_token(user.fio),
     #     "refresh_token": create_refresh_token(user.fio),
     # }
-    response = RedirectResponse(url="/me", status_code=status.HTTP_302_FOUND)
+    token = create_access_token(user.fio)
+    headers = {"Authorization": f"Bearer {token}"}
+    response = RedirectResponse(url="/me",headers = headers, status_code=status.HTTP_302_FOUND)
+    # response = RedirectResponse(url="/me", status_code=status.HTTP_302_FOUND)
+    # access_token = create_access_token(user.fio)
+    # response.headers["Authorization"] = 'Bearer ' + str(access_token)
+    # access_token = create_access_token(user.fio)
+    print(response.headers)
     # token = create_access_token(user.fio)
     # headers = {"Authorization": f"Bearer {token}"}
     # response = templates.TemplateResponse("success.html",

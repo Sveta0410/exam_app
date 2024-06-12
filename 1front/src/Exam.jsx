@@ -16,16 +16,17 @@ async function fetchQuestions() {
     url: "http://127.0.0.1:8000/r",
   }).then(res =>  res.data);
   console.log("erivgierjnvgibjfrtbiwe4bft", questionsForExam);
+  setQuestionsForExam(questionsForExam);
 
 
-const result = Object.values(questionsForExam);
-console.log("result",  Object.values(questionsForExam[0]));
-console.log("result",  questionsForExam[0]);
+// const result = Object.values(questionsForExam);
+// console.log("result",  Object.values(questionsForExam[0]));
+// console.log("result",  questionsForExam[0]);
 //   questionsForExam.map(c=>{
 //                 return {label: c.exam_tb, key: c.rightanswer}
 //                 })
 //   console.log("1у434к54", questionsForExam);
-  setQuestionsForExam(questionsForExam)
+//   setQuestionsForExam(questionsForExam)
 //           const listQuestions = [
 //             getItem('список вопросов', 'q', null,
 //             questionsForExam.map(c=>{
@@ -79,12 +80,12 @@ console.log("result",  questionsForExam[0]);
   useEffect(() => {
       fetchQuestions()
   }, []);
-   function WriteQuestion(props) {
+function WriteQuestion(props) {
 
 
 //        const questions = props.questions;
-    const questions = props;
-    console.log(questions.answer1);
+       const {questions} = props
+//        console.log(questions.answer1);
        console.log('questions', questions);
        console.log(typeof questions);
        console.log('questions.length', questions.length);
@@ -95,19 +96,20 @@ console.log("result",  questionsForExam[0]);
 
 
        const numAns = 0;
+       if (questions.length !== 0){
 //        return <p>{questions}</p>
 console.log('questions.answer3', questions.answer3);
-       if (questions.answer3 == null){
+       if (questions[0].answer3 == null){
            return <p>{questions.answer3}</p>;
        }
-        if (questions.answer4 == null){
+        if (questions[0].answer4 == null){
            return <p>questions.answer4 is null</p>;
        }
-        else if (questions.answer5 == null){
+        else if (questions[0].answer5 == null){
            return <p>questions.answer5 is null</p>;
        }
         return <p>questions.answer4 </p>;
-    }
+    }}
 }
 // fetchQuestions()
 // console.log('questionsForExam', questionsForExam);
