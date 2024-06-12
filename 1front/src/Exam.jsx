@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 export const Exam = () => {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(null);
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
@@ -98,12 +98,26 @@ function WriteQuestion(props) {
        const numAns = 0;
        if (questions.length !== 0){
 //        return <p>{questions}</p>
-console.log('questions.answer3', questions.answer3);
+// console.log('questions.answer3', questions.answer3);
        if (questions[0].answer3 == null){
-           return <p>{questions.answer3}</p>;
+           return        <Radio.Group onChange={onChange} value={value}>
+           <Space direction="vertical">
+
+        <Radio value={1}>{questions[0].answer1}</Radio>
+        <Radio value={2}>{questions[0].answer2}</Radio>
+         </Space>
+         </Radio.Group>;
        }
         if (questions[0].answer4 == null){
-           return <p>questions.answer4 is null</p>;
+           return  <> <p>{questions[0].exam_tb} </p>
+            <Radio.Group onChange={onChange} value={value}>
+               <Space direction="vertical">
+
+        <Radio value={1}>{questions[0].answer1}</Radio>
+        <Radio value={2}>{questions[0].answer2}</Radio>
+        <Radio value={3}>{questions[0].answer3}</Radio>
+         </Space>
+         </Radio.Group></>;
        }
         else if (questions[0].answer5 == null){
            return <p>questions.answer5 is null</p>;
