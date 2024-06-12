@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import { Input, Radio, Space } from 'antd';
+import { Input, Radio, Space, Button } from 'antd';
 import axios from "axios";
 
 
@@ -139,7 +139,13 @@ function WriteQuestion(props) {
 // questionsForExam = fetchQuestions()
 // fetchQuestions()
 // fetchQuestions().then(WriteQuestion())
+  const [disabled, setDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
+  const toggleDisabled = () => {
+    setDisabled(!disabled);
+    setButtonDisabled(true)
+  };
   return (
       <>
 {/*        <p>{questionsForExam.data}</p> */}
@@ -155,6 +161,26 @@ function WriteQuestion(props) {
 {/*         <Radio value={3}>Option C</Radio> */}
 {/*       </Space> */}
 {/*     </Radio.Group> */}
+   <p>--------------</p>
+ <>
+      <Radio  disabled={disabled}>
+        Disabled
+      </Radio>
+      <Radio  disabled={disabled}>
+        Disabled
+      </Radio>
+      <br />
+      <Button type="primary" onClick={toggleDisabled} style={{ marginTop: 16 }} disabled={buttonDisabled}>
+        подтвердить ответ
+      </Button>
+      <Button type="primary" onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)} style={{ marginTop: 16 }} disabled={!buttonDisabled}>
+        следующий вопрос
+      </Button>
+    </>
+  <p>---------</p>
+    <button onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)}>
+          подтвердить ответ {questionIndex}
+    </button>
        <p></p>
     <button onClick={() => setQuestionIndex((questionIndex) => questionIndex + 1)}>
           index is {questionIndex}
