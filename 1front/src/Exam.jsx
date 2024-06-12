@@ -153,8 +153,9 @@ function WriteQuestion(props) {
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const toggleDisabled = () => {
+      if (value !== null){
     setDisabled(!disabled);
-    setButtonDisabled(true)
+    setButtonDisabled(true)}
   };
 
   const toggleDisabledNextQ = () => {
