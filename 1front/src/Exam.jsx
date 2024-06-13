@@ -10,7 +10,6 @@ export const Exam = () => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
-
     const columns = [
         {
         title: '№',
@@ -203,7 +202,22 @@ const tableBlock = (<>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
         }
         else{
-            return <>{tableBlock}<p>Результат - {countCorrect} баллов из 20</p></>}
+            let mark = 2
+            if (countCorrect/20 >= 0.85){
+                mark = 5
+            } else if (countCorrect/20 >= 0.75){
+                 mark = 4
+            } else if (countCorrect/20 >= 0.65){
+                 mark = 3
+            }
+            const numProt = 123;
+            const fio = "Иванов Иван Иванович"
+            return <>
+                <h3>Протокол № {numProt}</h3>
+                <h4>Выполнил - {fio}</h4>
+                {tableBlock}
+                <p>Оценка - {mark}</p>
+                <p>Дата прохождения тестирования - {new Date().toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year:"numeric" })}</p></>}
     }
 
     const [disabled, setDisabled] = useState(false);
