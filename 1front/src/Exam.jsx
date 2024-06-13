@@ -66,44 +66,33 @@ export const Exam = () => {
    const [resToShow, setResToShow] = useState([])
    const [resToShow1, setResToShow1] = useState([])
    const [resToShow2, setResToShow2] = useState([])
-   const numAns = 0; //считаем число верных ответов
-
+//    const numAns = 0; //считаем число верных ответов
+   const [first, setFirst] = useState(0)
+const tableBlock = (<>
+            <Table
+                columns={columns}
+                dataSource={resToShow}
+                pagination={false}
+                size="small"
+              /></>
+        )
+        if (resToShow.length === 0){
+        for (let i = 0; i < questionsForExam.length; i++) {
+                    resToShow.push({key: i+1, question: questionsForExam[i].id, answer: null, rightanswer: questionsForExam[i].rightanswer});
+                }
+            }
     function WriteQuestion(props) {
         const {questions} = props
-
-        const tableBlock = (<>
-            <Row justify="space-around">
-            <Col span={11}>
-              <Table
-                columns={columns}
-                dataSource={resToShow1}
-                pagination={false}
-                size="small"
-              />
-            </Col>
-            <Col span={11}>
-              <Table
-                columns={columns}
-                dataSource={resToShow2}
-                pagination={false}
-                size="small"
-              />
-            </Col>
-          </Row></>
-        )
         console.log('questions', questions);
 
-
         if (questions.length !== 0 && questionIndex < 20){
-            if (resToShow.length === 0){
-                for (let i = 0; i < questionsForExam.length; i++) {
-                    resToShow.push({key: i, question: questionsForExam[i].id, answer: null, rightanswer: questionsForExam[i].rightanswer});
-                }
-
-                setResToShow1(resToShow.slice(0, resToShow.length / 2));
-                setResToShow2(resToShow.slice(resToShow.length / 2));
-            }
-
+//             if (resToShow.length === 0 && first === 0){
+//                 setFirst(1)
+//                 for (let i = 0; i < questions.length; i++) {
+//                     resToShow.push({key: i+1, question: questions[i].id, answer: null, rightanswer: questions[i].rightanswer});
+//                 }
+//
+//             }
             console.log(resToShow)
             const questionBlock = (<><p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
             const buttonsBlock = (<><p></p>
@@ -139,8 +128,8 @@ export const Exam = () => {
                    <Space direction="vertical">
                        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
                        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
-                        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
-                        <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
+                       <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
+                       <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
                    </Space>
                </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
@@ -213,7 +202,8 @@ export const Exam = () => {
                     </Space>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
         }
-        else{return <>{tableBlock}<p>Результат - {countCorrect} баллов из 20</p></>}
+        else{
+            return <>{tableBlock}<p>Результат - {countCorrect} баллов из 20</p></>}
     }
 
     const [disabled, setDisabled] = useState(false);
