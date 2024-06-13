@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import { Input, Radio, Space, Button, Alert, message  } from 'antd';
+import { Input, Radio, Space, Button, Alert, message, Table, Row, Col } from 'antd';
 import axios from "axios";
 
 
@@ -10,6 +10,30 @@ export const Exam = () => {
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
   };
+
+//    let resToShow = [];
+const columns = [
+    {
+    title: '№',
+    dataIndex: 'key',
+    width: 15,
+  },
+  {
+    title: 'id вопроса',
+    dataIndex: 'question',
+    width: 100,
+  },
+  {
+    title: 'Ответ пользователя',
+    dataIndex: 'answer',
+    width: 150,
+  },
+    {
+    title: 'Правильный ответ',
+    dataIndex: 'rightanswer',
+
+  }]
+
 
 async function fetchQuestions() {
   const questionsForExam = await axios({
@@ -39,22 +63,59 @@ async function fetchQuestions() {
 
    const [questionIndex, setQuestionIndex] = useState(0)
    const [countCorrect, setCountCorrect] = useState(0)
-      const [questionCheck, setQuestionCheck] = useState([])
+   const [questionCheck, setQuestionCheck] = useState([])
+   const [ansBlock, setAnsBlock] = useState(null)
 
-      const [ansBlock, setAnsBlock] = useState(null)
+   const [resToShow, setResToShow] = useState([])
+   const [resToShow1, setResToShow1] = useState([])
+   const [resToShow2, setResToShow2] = useState([])
+
 function WriteQuestion(props) {
-
-
-
        const {questions} = props
+
+       const tableBlock = (<> <Row justify="space-around">
+        <Col span={11}>
+          <Table
+            columns={columns}
+            dataSource={resToShow1}
+            pagination={false}
+            size="small"
+          />
+        </Col>
+        <Col span={11}>
+          <Table
+            columns={columns}
+            dataSource={resToShow2}
+            pagination={false}
+            size="small"
+          />
+        </Col>
+      </Row></>)
        console.log('questions', questions);
-       console.log(typeof questions);
-       console.log('questions.length', questions.length);
+//        console.log(typeof questions);
+//        console.log('questions.length', questions.length);
        if (Array.isArray(questions) ){
 
        const numAns = 0;
        if (questions.length !== 0 && questionIndex < 20){
-           const questionBlock = (<><p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
+          if (resToShow.length === 0){
+              for (let i = 0; i < questionsForExam.length; i++) {
+                  resToShow.push({key: i, question: questionsForExam[i].id, answer: null, rightanswer: questionsForExam[i].rightanswer});
+
+              }
+//                 const halfLength = Math.ceil(resToShow.length / 2);
+                 setResToShow1(resToShow.slice(0, resToShow.length / 2));
+                 setResToShow2(resToShow.slice(resToShow.length / 2));
+            }
+
+        console.log(resToShow)
+
+
+           const questionBlock = (<>
+
+
+{/*                <Table columns={columns} dataSource={resToShow}  size="small" pagination={{ pageSize: 20 }}/> */}
+               <p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
         const buttonsBlock = (<><p></p><Button type="primary" onClick={toggleDisabledCheck} style={{ marginTop: 16 }} disabled={buttonDisabled}>
         подтвердить ответ
       </Button>
@@ -169,7 +230,7 @@ function WriteQuestion(props) {
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
     }
-    else{return <p>Результат - {countCorrect} баллов из 20</p>}
+    else{return <>{tableBlock}<p>Результат - {countCorrect} баллов из 20</p></>}
 }
 }
 
@@ -180,6 +241,7 @@ function WriteQuestion(props) {
       if (value !== null){
             setDisabled(!disabled);
             setButtonDisabled(true)
+            resToShow[questionIndex].answer = value;
             if (value === questionsForExam[questionIndex].rightanswer){
                 const key = `answer${questionsForExam[questionIndex].rightanswer}`
                 const my_info = `${questionsForExam[questionIndex].rightanswer}. ${questionsForExam[questionIndex][key]}`
@@ -214,7 +276,6 @@ function WriteQuestion(props) {
   };
   return (
       <>
-
      <WriteQuestion questions={questionsForExam} />
 
     </>
