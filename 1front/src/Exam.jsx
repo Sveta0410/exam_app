@@ -181,12 +181,14 @@ function WriteQuestion(props) {
             setDisabled(!disabled);
             setButtonDisabled(true)
             if (value === questionsForExam[questionIndex].rightanswer){
+                const key = `answer${questionsForExam[questionIndex].rightanswer}`
+                const my_info = `${questionsForExam[questionIndex].rightanswer}. ${questionsForExam[questionIndex][key]}`
                 setAnsBlock(<Alert
-              message="Верно"
-              description="Можете перейти к следующему вопросу"
-              type="success"
-              showIcon
-            />)
+                  message="Верно"
+                  description={my_info}
+                  type="success"
+                  showIcon
+                />)
             setCountCorrect((countCorrect) => countCorrect + 1)
 //                 console.log('AAAAAAAAAAAAAAAAAAA');
                 }
@@ -194,11 +196,11 @@ function WriteQuestion(props) {
                 const key = `answer${questionsForExam[questionIndex].rightanswer}`
                 const my_info = `Правильный ответ: ${questionsForExam[questionIndex].rightanswer}. ${questionsForExam[questionIndex][key]} `
                 setAnsBlock(<Alert
-              message="Неверно"
-              description={my_info}
-              type="error"
-              showIcon
-            />)}
+                  message="Неверно"
+                  description={my_info}
+                  type="error"
+                  showIcon
+                />)}
     }
     else {messageApi.info('Пожалуйста, выберите один из вариантов ответа');}
   };
