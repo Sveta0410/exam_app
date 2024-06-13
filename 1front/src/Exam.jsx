@@ -38,6 +38,7 @@ async function fetchQuestions() {
   }, []);
 
    const [questionIndex, setQuestionIndex] = useState(0)
+   const [countCorrect, setCountCorrect] = useState(0)
       const [questionCheck, setQuestionCheck] = useState([])
 
       const [ansBlock, setAnsBlock] = useState(null)
@@ -53,7 +54,7 @@ function WriteQuestion(props) {
 
        const numAns = 0;
        if (questions.length !== 0 && questionIndex < 20){
-           const questionBlock = (<h3>{questions[questionIndex].exam_tb} </h3>)
+           const questionBlock = (<><p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
         const buttonsBlock = (<><p></p><Button type="primary" onClick={toggleDisabledCheck} style={{ marginTop: 16 }} disabled={buttonDisabled}>
         подтвердить ответ
       </Button>
@@ -65,19 +66,19 @@ function WriteQuestion(props) {
        if (questions[questionIndex].answer3 == null){
            return <>{contextHolder}{questionBlock} <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled} >
            <Space direction="vertical">
-        <Radio value={1}>{questions[questionIndex].answer1}  </Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2} </Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}  </Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2} </Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
-        if (questions[questionIndex].answer4 == null){
+        else if (questions[questionIndex].answer4 == null){
            return  <> {contextHolder}{questionBlock}
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio><p></p>
-        <Radio value={3}>{questions[questionIndex].answer3}</Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
+        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
@@ -86,10 +87,10 @@ function WriteQuestion(props) {
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio><p></p>
-        <Radio value={3}>{questions[questionIndex].answer3}</Radio><p></p>
-        <Radio value={4}>{questions[questionIndex].answer4}</Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
+        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
+        <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
@@ -98,11 +99,11 @@ function WriteQuestion(props) {
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio><p></p>
-        <Radio value={3}>{questions[questionIndex].answer3}</Radio><p></p>
-        <Radio value={4}>{questions[questionIndex].answer4}</Radio><p></p>
-        <Radio value={5}>{questions[questionIndex].answer5}</Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
+        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
+        <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
+        <Radio value={5}>5.  {questions[questionIndex].answer5}</Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
@@ -111,12 +112,12 @@ function WriteQuestion(props) {
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio><p></p>
-        <Radio value={3}>{questions[questionIndex].answer3}</Radio><p></p>
-        <Radio value={4}>{questions[questionIndex].answer4}</Radio><p></p>
-        <Radio value={5}>{questions[questionIndex].answer5}</Radio><p></p>
-        <Radio value={6}>{questions[questionIndex].answer6}</Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
+        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
+        <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
+        <Radio value={5}>5.  {questions[questionIndex].answer5}</Radio><p></p>
+        <Radio value={6}>6.  {questions[questionIndex].answer6}</Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
@@ -125,13 +126,13 @@ function WriteQuestion(props) {
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio><p></p>
-        <Radio value={3}>{questions[questionIndex].answer3}</Radio><p></p>
-        <Radio value={4}>{questions[questionIndex].answer4}</Radio><p></p>
-        <Radio value={5}>{questions[questionIndex].answer5}</Radio><p></p>
-        <Radio value={6}>{questions[questionIndex].answer6}</Radio><p></p>
-        <Radio value={7}>{questions[questionIndex].answer7}</Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
+        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
+        <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
+        <Radio value={5}>5.  {questions[questionIndex].answer5}</Radio><p></p>
+        <Radio value={6}>6.  {questions[questionIndex].answer6}</Radio><p></p>
+        <Radio value={7}>7.  {questions[questionIndex].answer7}</Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
@@ -140,14 +141,14 @@ function WriteQuestion(props) {
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio><p></p>
-        <Radio value={3}>{questions[questionIndex].answer3}</Radio><p></p>
-        <Radio value={4}>{questions[questionIndex].answer4}</Radio><p></p>
-        <Radio value={5}>{questions[questionIndex].answer5}</Radio><p></p>
-        <Radio value={6}>{questions[questionIndex].answer6}</Radio><p></p>
-        <Radio value={7}>{questions[questionIndex].answer7}</Radio><p></p>
-        <Radio value={8}>{questions[questionIndex].answer8}</Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
+        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
+        <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
+        <Radio value={5}>5.  {questions[questionIndex].answer5}</Radio><p></p>
+        <Radio value={6}>6.  {questions[questionIndex].answer6}</Radio><p></p>
+        <Radio value={7}>7.  {questions[questionIndex].answer7}</Radio><p></p>
+        <Radio value={8}>8.  {questions[questionIndex].answer8}</Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
        }
@@ -156,18 +157,20 @@ function WriteQuestion(props) {
             <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                <Space direction="vertical">
 
-        <Radio value={1}>{questions[questionIndex].answer1}</Radio><p></p>
-        <Radio value={2}>{questions[questionIndex].answer2}</Radio><p></p>
-        <Radio value={3}>{questions[questionIndex].answer3}</Radio><p></p>
-        <Radio value={4}>{questions[questionIndex].answer4}</Radio><p></p>
-        <Radio value={5}>{questions[questionIndex].answer5}</Radio><p></p>
-        <Radio value={6}>{questions[questionIndex].answer6}</Radio><p></p>
-        <Radio value={7}>{questions[questionIndex].answer7}</Radio><p></p>
-        <Radio value={8}>{questions[questionIndex].answer8}</Radio><p></p>
-        <Radio value={9}>{questions[questionIndex].answer9}</Radio><p></p>
+        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
+        <Radio value={2}>2.  {questions[questionIndex].answer2}</Radio><p></p>
+        <Radio value={3}>3.  {questions[questionIndex].answer3}</Radio><p></p>
+        <Radio value={4}>4.  {questions[questionIndex].answer4}</Radio><p></p>
+        <Radio value={5}>5.  {questions[questionIndex].answer5}</Radio><p></p>
+        <Radio value={6}>6.  {questions[questionIndex].answer6}</Radio><p></p>
+        <Radio value={7}>7.  {questions[questionIndex].answer7}</Radio><p></p>
+        <Radio value={8}>8.  {questions[questionIndex].answer8}</Radio><p></p>
+        <Radio value={9}>9.  {questions[questionIndex].answer9}</Radio><p></p>
          </Space>
          </Radio.Group>{buttonsBlock}{ansBlock}</>;
-    }}
+    }
+    else{return <p>Результат - {countCorrect} баллов из 20</p>}
+}
 }
 
   const [disabled, setDisabled] = useState(false);
@@ -184,11 +187,12 @@ function WriteQuestion(props) {
               type="success"
               showIcon
             />)
+            setCountCorrect((countCorrect) => countCorrect + 1)
 //                 console.log('AAAAAAAAAAAAAAAAAAA');
                 }
             else {
                 const key = `answer${questionsForExam[questionIndex].rightanswer}`
-                const my_info = `Правильный ответ ${questionsForExam[questionIndex].rightanswer}: ${questionsForExam[questionIndex][key]} `
+                const my_info = `Правильный ответ: ${questionsForExam[questionIndex].rightanswer}. ${questionsForExam[questionIndex][key]} `
                 setAnsBlock(<Alert
               message="Неверно"
               description={my_info}
