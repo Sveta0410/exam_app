@@ -20,6 +20,9 @@ from database import SessionLocal
 from config import ALGORITHM, JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES, \
     REFRESH_TOKEN_EXPIRE_MINUTES, NUM_Q_0, NUM_Q_1, NUM_Q_2, NUM_Q_3, NUM_Q_4, NUM_Q_5
 
+
+from datetime import datetime
+
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
@@ -121,3 +124,13 @@ async def get_current_user(
         fio=user.fio,
     )
 
+
+def save_result(db: Session, res: schemas.GetResult):
+    user_id = get_user_by_fio(db, fio=res.fio).id
+    today = datetime.today()
+    ex_res = models.ExamResults(result=res.result, id_pers=user_id, date=today)
+    db.add(ex_res)
+    db.commit()
+    db.refresh(ex_res)
+
+    return ex_res

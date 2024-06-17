@@ -133,4 +133,4 @@ def create_user(res: schemas.GetResult,  db: Session = Depends(crud.get_db)):
     #     raise HTTPException(status_code=400, detail="fio already registered")
     # user.password = get_hashed_password(user.password)
     print(res)
-    return crud.get_user_by_fio(db, res.fio)
+    return crud.save_result(db, res)
