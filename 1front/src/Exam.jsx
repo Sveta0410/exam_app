@@ -84,7 +84,7 @@ const tableBlock = (<>
         const {questions} = props
         console.log('questions', questions);
 
-        if (questions.length !== 0 && questionIndex < 20){
+        if (questions.length !== 0 && questionIndex < questions.length){
 //             if (resToShow.length === 0 && first === 0){
 //                 setFirst(1)
 //                 for (let i = 0; i < questions.length; i++) {
@@ -208,7 +208,7 @@ const tableBlock = (<>
                 <h3>Протокол № {numProt}</h3>
                 <h4>Выполнил - {fio}</h4>
                 {tableBlock}
-                <p>Оценка - {countCorrect/20*5}</p>
+                <p>Оценка - {countCorrect/questions.length*5}. ({countCorrect} из {questions.length})</p>
                 <p>Дата прохождения тестирования - {new Date().toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year:"numeric" })}</p></>}
     }
 
