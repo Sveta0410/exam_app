@@ -128,9 +128,15 @@ async def get_current_user(
 def save_result(db: Session, res: schemas.GetResult):
     user_id = get_user_by_fio(db, fio=res.fio).id
     today = datetime.today()
-    ex_res = models.ExamResults(result=res.result, id_pers=user_id, date=today)
+    ex_res = models.ExamResults(id=res.num_prot, result=res.result, id_pers=user_id, date=today)
     db.add(ex_res)
     db.commit()
     db.refresh(ex_res)
-
-    return ex_res
+    for ans in res.res_to_show:
+        print(ans)
+        is_good = 1 if ans["answer"] == ans["rightanswer"] else 0
+        ex_ans = models.ExamAns(question=ans["question"], answer=ans["answer"], is_good=is_good, id_pers=user_id, id_attempt=res.num_prot)
+        db.add(ex_ans)
+        db.commit()
+        db.refresh(ex_ans)
+    return "ok"
