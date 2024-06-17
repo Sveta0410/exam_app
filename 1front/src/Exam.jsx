@@ -202,14 +202,6 @@ const tableBlock = (<>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
         }
         else{
-            let mark = 2
-            if (countCorrect/20 >= 0.85){
-                mark = 5
-            } else if (countCorrect/20 >= 0.75){
-                 mark = 4
-            } else if (countCorrect/20 >= 0.65){
-                 mark = 3
-            }
             const numProt = 123;
             const fio = "Иванов Иван Иванович"
             return <>
