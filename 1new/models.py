@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
 from database import Base
 
 
@@ -17,6 +17,7 @@ class ExamResults(Base):
     id = Column(Integer, primary_key=True)
     result = Column(Integer)
     id_pers = Column(Integer, ForeignKey("pers.id"))
+    date = Column(Date)
 
 
 class ExamTb(Base):

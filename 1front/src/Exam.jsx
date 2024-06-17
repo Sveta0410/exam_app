@@ -63,8 +63,8 @@ export const Exam = () => {
    const [questionCheck, setQuestionCheck] = useState([])
    const [ansBlock, setAnsBlock] = useState(null)
    const [resToShow, setResToShow] = useState([])
-   const [resToShow1, setResToShow1] = useState([])
-   const [resToShow2, setResToShow2] = useState([])
+//    const [resToShow1, setResToShow1] = useState([])
+//    const [resToShow2, setResToShow2] = useState([])
 //    const numAns = 0; //считаем число верных ответов
    const [first, setFirst] = useState(0)
 const tableBlock = (<>
@@ -216,7 +216,7 @@ const tableBlock = (<>
                 <h3>Протокол № {numProt}</h3>
                 <h4>Выполнил - {fio}</h4>
                 {tableBlock}
-                <p>Оценка - {mark}</p>
+                <p>Оценка - {countCorrect/20*5}</p>
                 <p>Дата прохождения тестирования - {new Date().toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year:"numeric" })}</p></>}
     }
 
