@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, Float
 from database import Base
 
 
@@ -15,7 +15,7 @@ class ExamResults(Base):
     __tablename__ = "exam_results"
     
     id = Column(Integer, primary_key=True)
-    result = Column(Integer)
+    result = Column(Float)
     id_pers = Column(Integer, ForeignKey("pers.id"))
     date = Column(Date)
 

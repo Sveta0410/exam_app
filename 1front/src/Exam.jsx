@@ -201,9 +201,25 @@ const tableBlock = (<>
                     </Space>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
         }
-        else{
+        else if (questions.length !== 0){
             const numProt = 123;
             const fio = "Иванов Иван Иванович"
+            const data_to_send = {
+                    num_prot: numProt,
+                    fio: fio,
+                    result: countCorrect/questions.length*5,
+                    res_to_show: resToShow
+                    }
+            console.log("data_to_send", data_to_send);
+            sendQuestions(data_to_send)
+//             const res1 = await axios({
+//                 method: "post",
+//                 url: "http://127.0.0.1:8000/write_res",
+//                 data = data_to_send
+//             }).then(res =>  res.data);
+//             console.log("erivgierjnvgibjfrtbiwe4bft", res1);
+//             setQuestionsForExam(questionsForExam);
+
             return <>
                 <h3>Протокол № {numProt}</h3>
                 <h4>Выполнил - {fio}</h4>
@@ -211,7 +227,17 @@ const tableBlock = (<>
                 <p>Оценка - {countCorrect/questions.length*5}. ({countCorrect} из {questions.length})</p>
                 <p>Дата прохождения тестирования - {new Date().toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year:"numeric" })}</p></>}
     }
-
+    async function sendQuestions(data_to_send) {
+            const res1 = await axios({
+                method: "post",
+                url: "http://127.0.0.1:8000/write_res",
+                data: {num_prot: data_to_send.num_prot,
+                    fio: data_to_send.fio,
+                    result: data_to_send.result,
+                    res_to_show: data_to_send.res_to_show}
+            }).then(res =>  res);
+            console.log("res1", res1);
+    }
     const [disabled, setDisabled] = useState(false);
     const [buttonDisabled, setButtonDisabled] = useState(false);
 

@@ -10,7 +10,7 @@ import schemas
 from database import SessionLocal, engine
 from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from schemas import UserOut, TokenSchema, SystemUser
+from schemas import UserOut, TokenSchema, SystemUser, GetResult
 from fastapi.middleware.cors import CORSMiddleware
 from crud import (
     get_hashed_password,
@@ -120,3 +120,17 @@ def random_page(db: Session = Depends(crud.get_db)):
     # return {
     #     "Question": choice(all_data).generate_dictionary()
     # }
+
+
+@app.post("/write_res/")
+def create_user(res: schemas.GetResult,  db: Session = Depends(crud.get_db)):
+    # numProt: numProt,
+    # fio: fio,
+    # resToShow: resToShow,
+    # result: countCorrect / questions.length * 5
+    # db_user = crud.get_user_by_fio(db, fio=user.fio)
+    # if db_user:
+    #     raise HTTPException(status_code=400, detail="fio already registered")
+    # user.password = get_hashed_password(user.password)
+    print(res)
+    return crud.get_user_by_fio(db, res.fio)

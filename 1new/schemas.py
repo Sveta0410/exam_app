@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List, Any
 
 from pydantic import BaseModel
 
@@ -67,3 +67,11 @@ class UserOut(BaseModel):
 
 class SystemUser(UserOut):
     password: str
+
+
+class GetResult(BaseModel):
+    num_prot: int
+    fio: str
+    result: float
+    res_to_show: List[Any]
+
