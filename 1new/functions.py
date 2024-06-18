@@ -20,11 +20,9 @@ from database import SessionLocal
 from config import ALGORITHM, JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES, \
     REFRESH_TOKEN_EXPIRE_MINUTES, NUM_Q_0, NUM_Q_1, NUM_Q_2, NUM_Q_3, NUM_Q_4, NUM_Q_5
 
-
 from datetime import datetime
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 reusable_oauth = OAuth2PasswordBearer(
     tokenUrl="/login",
@@ -98,10 +96,39 @@ def get_db():
 
 
 async def get_current_user(
-    db: Session = Depends(get_db), token: str = Depends(reusable_oauth)
+        db: Session = Depends(get_db), token: str = Depends(reusable_oauth)
 ) -> schemas.UserOut:
     try:
-        payload=jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+
+        username = payload.get("sub", None)
+        if username is None:
+            raise HTTPException(
+                401,
+                "could not validate credentials",
+            )
+
+    except InvalidTokenError:
+        raise HTTPException(
+            401,
+            "could not validate credentials",
+        )
+    user = get_user(db, username)
+
+    if user is None:
+        raise HTTPException(404, "user not found")
+
+    return schemas.UserOut(
+        id=user.id,
+        fio=user.fio,
+    )
+
+
+def verify_token(
+        db: Session, token: str = Depends(reusable_oauth)
+) -> schemas.UserOut:
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
 
         username = payload.get("sub", None)
         if username is None:
@@ -135,7 +162,8 @@ def save_result(db: Session, res: schemas.GetResult):
     for ans in res.res_to_show:
         print(ans)
         is_good = 1 if ans["answer"] == ans["rightanswer"] else 0
-        ex_ans = models.ExamAns(question=ans["question"], answer=ans["answer"], is_good=is_good, id_pers=user_id, id_attempt=res.num_prot)
+        ex_ans = models.ExamAns(question=ans["question"], answer=ans["answer"], is_good=is_good, id_pers=user_id,
+                                id_attempt=res.num_prot)
         db.add(ex_ans)
         db.commit()
         db.refresh(ex_ans)

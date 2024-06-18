@@ -4,7 +4,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 from typing import Any, Callable
 
-import crud
+import functions
 import models
 import schemas
 from database import SessionLocal, engine
@@ -12,7 +12,7 @@ from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from schemas import UserOut, TokenSchema, SystemUser, GetResult
 from fastapi.middleware.cors import CORSMiddleware
-from crud import (
+from functions import (
     get_hashed_password,
     create_access_token,
     create_refresh_token,
@@ -56,17 +56,17 @@ async def read_root() -> dict:
 
 
 @app.post("/signup/", summary="Create new user", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(crud.get_db)):
-    db_user = crud.get_user_by_fio(db, fio=user.fio)
+def create_user(user: schemas.UserCreate, db: Session = Depends(functions.get_db)):
+    db_user = functions.get_user_by_fio(db, fio=user.fio)
     if db_user:
         raise HTTPException(status_code=400, detail="fio already registered")
     user.password = get_hashed_password(user.password)
-    return crud.create_user(db=db, user=user)
+    return functions.create_user(db=db, user=user)
 
 
 @app.post('/login/', summary="Create access and refresh tokens for user", response_model=TokenSchema)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(crud.get_db)):
-    user = crud.get_user_by_fio(db, fio=form_data.username)
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(functions.get_db)):
+    user = functions.get_user_by_fio(db, fio=form_data.username)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -91,8 +91,13 @@ async def get_me(current_user: UserOut = Depends(get_current_user)):
     return current_user
 
 
+@app.get('/verify-token/{token}', summary='Get details of currently logged in user')
+async def verify_user_token(token: str, db: Session = Depends(functions.get_db)):
+
+    return functions.verify_token(db, token)
+
 @app.get("/all")
-def all_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depends(get_current_user)):
+def all_page(db: Session = Depends(functions.get_db), current_user: UserOut = Depends(get_current_user)):
     all_data = db.query(models.ExamTb).all()
     return all_data
     # return {
@@ -101,10 +106,10 @@ def all_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depends
 
 
 @app.get("/random")
-def random_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depends(get_current_user)):
+def random_page(db: Session = Depends(functions.get_db), current_user: UserOut = Depends(get_current_user)):
     #all_data = db.query(models.ExamTb).all()
     all_data = db.query(models.ExamTb).order_by(func.random()).first()
-    my_quiz = crud.get_questions(db)
+    my_quiz = functions.get_questions(db)
     return my_quiz
     # return {
     #     "Question": choice(all_data).generate_dictionary()
@@ -112,10 +117,10 @@ def random_page(db: Session = Depends(crud.get_db), current_user: UserOut = Depe
 
 
 @app.get("/r")
-def random_page(db: Session = Depends(crud.get_db)):
+def random_page(db: Session = Depends(functions.get_db)):
     #all_data = db.query(models.ExamTb).all()
     all_data = db.query(models.ExamTb).order_by(func.random()).first()
-    my_quiz = crud.get_questions(db)
+    my_quiz = functions.get_questions(db)
     return my_quiz
     # return {
     #     "Question": choice(all_data).generate_dictionary()
@@ -123,14 +128,14 @@ def random_page(db: Session = Depends(crud.get_db)):
 
 
 @app.post("/write_res/")
-def create_user(res: schemas.GetResult,  db: Session = Depends(crud.get_db)):
+def create_user(res: schemas.GetResult,  db: Session = Depends(functions.get_db)):
     # numProt: numProt,
     # fio: fio,
     # resToShow: resToShow,
     # result: countCorrect / questions.length * 5
-    # db_user = crud.get_user_by_fio(db, fio=user.fio)
+    # db_user = functions.get_user_by_fio(db, fio=user.fio)
     # if db_user:
     #     raise HTTPException(status_code=400, detail="fio already registered")
     # user.password = get_hashed_password(user.password)
     print(res)
-    return crud.save_result(db, res)
+    return functions.save_result(db, res)
