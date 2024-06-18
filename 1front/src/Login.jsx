@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { Button, message } from 'antd';
 import axios from "axios";
@@ -6,6 +6,8 @@ import axios from "axios";
 export const Login = () => {
     const [fio, setFio] = useState('')
     const [pass, setPassword] = useState('')
+    const [error, setError] = useState('')
+
 
     const navigate = useNavigate()
 
@@ -13,10 +15,15 @@ export const Login = () => {
 
     const validateForm = () => {
 
-        if (!fio || !pass){
-
+        if (!pass){
+            setError("Введите пароль")
             return false;
             }
+        else if (!fio ){
+            setError("Введите ФИО")
+            return false;
+            }
+        setError("")
         return true;
         }
 
@@ -34,7 +41,7 @@ async function sendLoginInfo() {
         const formDetails = new URLSearchParams();
         formDetails.append('username', fio);
         formDetails.append('password', pass);
-        const response = await fetch("http://127.0.0.1:8000/login/", {
+        try { const response = await fetch("http://127.0.0.1:8000/login/", {
             method: "POST",
 
             headers: {
@@ -45,12 +52,25 @@ async function sendLoginInfo() {
         console.log("erivgierjnvgibjfrtbiwe4bft", response);
         if (response.ok) {
             const data = await response.json()
+            console.log("data", data);
             localStorage.setItem('token', data.access_token);
             navigate('/exam')
 
-            }
+         } else {
+             const errorData = await response.json()
+             console.log("errorData", errorData);
+             setError("Неверный пароль или фио")
+//              return  messageApi.info('Пожалуйста, выберите один из вариантов ответа')
 
+             }
+         }catch (error){
+             setError("ошибка")
+             }
     }
+
+// const aa = () => {
+//
+//     }
     return (
         <><form>
             <div className="input-box">
@@ -65,6 +85,9 @@ async function sendLoginInfo() {
             <Button type="primary" onClick={sendLoginInfo} style={{ marginTop: 16 }} >
                 Войти
             </Button>
+
+            {error && <p style={{color:'red'}}>{error}</p>}
+
             <div className="register-link">
                 <p>  <a href="#">Создать нового пользователя</a></p>
             </div>
