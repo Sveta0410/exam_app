@@ -98,7 +98,10 @@ async function sendLoginInfo() {
 {/*                 <p>  <a href="#">Создать нового пользователя</a></p> */}
 {/*             </div> */}
 
-        </form>
+            </form>
+            <Button  type="link" href="/" style={{ marginTop: 16 }} >
+                    Назад
+            </Button>
 {/*         <br /> */}
 {/*         <ul> */}
 {/*                 <li> */}

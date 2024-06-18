@@ -64,7 +64,7 @@ export const Exam = () => {
                 const year_2_digits = today.getFullYear().toString().substr(-2)
 //                 setNumProt(parseInt(`${year_2_digits}${today.getMonth()}${today.getDate()}${data.id}`))
 //                 console.log("prot", parseInt(`${year_2_digits}${today.getMonth()}${today.getDate()}${data.id}`));
-                setNumProt(parseInt(`${today.getTime()-17187232000000}${data.id}`))
+                setNumProt(parseInt(`${today.getTime()-1718734000000}${data.id}`))
 
                 }
             catch (error) {

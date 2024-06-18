@@ -9,6 +9,7 @@ export const Home = () =>{
   };
     return (
         <>
+        <h1>Опрос по ОТ и ТБ</h1>
       <div>
         <Button className="home_button" type="link" href="/login" style={{ marginTop: 16 }} >
                 Экзамен
