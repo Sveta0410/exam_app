@@ -20,9 +20,13 @@ export const Home = () =>{
           </ul>
         </nav>
 
-        <Button className="home_button" type="link" href="/exam" style={{ marginTop: 16 }} >
+        <Button className="home_button" type="link" href="/login" style={{ marginTop: 16 }} >
                 Начать экзамен
-              </Button>
+         </Button>
+         <p></p>
+          <Button className="home_button" type="link" href="/exam" style={{ marginTop: 16 }} >
+                Тренировка
+         </Button>
       </div>
         </>
 )}

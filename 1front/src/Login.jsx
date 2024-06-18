@@ -1,18 +1,26 @@
 import React, {useState} from "react"
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import axios from "axios";
 
 export const Login = () => {
-    const [fio, setFio] = useState("")
+    const [fio, setFio] = useState('')
     const [pass, setPassword] = useState('')
 
     const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(fio);
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const validateForm = () => {
+
+        if (!fio || !pass){
+
+            return false;
+            }
+        return true;
         }
+
+
 //     const sendLoginInfo = () => {
 //         setDisabled(false);
 //         setButtonDisabled(false)
@@ -22,6 +30,7 @@ export const Login = () => {
 //     };
 
 async function sendLoginInfo() {
+        if (!validateForm()) return;
         const formDetails = new URLSearchParams();
         formDetails.append('username', fio);
         formDetails.append('password', pass);
@@ -43,7 +52,7 @@ async function sendLoginInfo() {
 
     }
     return (
-        <><form onSubmit={handleSubmit}>
+        <><form>
             <div className="input-box">
                 <label htmlFor="fio">ФИО </label>
                 <input type="text" onChange={(e)=>setFio(e.target.value)} placeholder="Иванов Иван Иванович" id="fio" name="fio"/>
