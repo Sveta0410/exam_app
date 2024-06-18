@@ -1,15 +1,47 @@
 import React, {useState} from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from 'antd';
+import axios from "axios";
 
 export const Login = () => {
     const [fio, setFio] = useState("")
     const [pass, setPassword] = useState('')
 
+    const navigate = useNavigate()
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(fio);
         }
+//     const sendLoginInfo = () => {
+//         setDisabled(false);
+//         setButtonDisabled(false)
+//         setQuestionIndex((questionIndex) => questionIndex + 1)
+//         setValue(null);
+//         setAnsBlock(<p></p>)
+//     };
 
+async function sendLoginInfo() {
+        const formDetails = new URLSearchParams();
+        formDetails.append('username', fio);
+        formDetails.append('password', pass);
+        const response = await fetch("http://127.0.0.1:8000/login/", {
+            method: "POST",
+
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+             },
+            body: formDetails,
+        });
+        console.log("erivgierjnvgibjfrtbiwe4bft", response);
+        if (response.ok) {
+            const data = await response.json()
+            localStorage.setItem('token', data.access_token);
+            navigate('/exam')
+
+            }
+
+    }
     return (
         <><form onSubmit={handleSubmit}>
             <div className="input-box">
@@ -20,7 +52,10 @@ export const Login = () => {
                 <label htmlFor="password">Пароль </label>
                 <input value={pass} onChange={(e)=>setPassword(e.target.value)} type="password" id="password" name="password"/>
             </div>
-            <button> Войти </button>
+{/*             <button> Войти </button> */}
+            <Button type="primary" onClick={sendLoginInfo} style={{ marginTop: 16 }} >
+                Войти
+            </Button>
             <div className="register-link">
                 <p>  <a href="#">Создать нового пользователя</a></p>
             </div>
