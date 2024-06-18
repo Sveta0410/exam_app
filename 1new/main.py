@@ -128,7 +128,7 @@ def random_page(db: Session = Depends(functions.get_db)):
 
 
 @app.post("/write_res/")
-def create_user(res: schemas.GetResult,  db: Session = Depends(functions.get_db)):
+def save_res(res: schemas.GetResult,  db: Session = Depends(functions.get_db)):
     # numProt: numProt,
     # fio: fio,
     # resToShow: resToShow,
