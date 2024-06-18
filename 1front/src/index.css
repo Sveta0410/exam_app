@@ -75,3 +75,8 @@ button:focus-visible {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+.form_login {
+    text-align: center;
+    border: 5px solid transparent;
+}

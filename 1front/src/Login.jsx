@@ -14,8 +14,11 @@ export const Login = () => {
     const [messageApi, contextHolder] = message.useMessage();
 
     const validateForm = () => {
-
-        if (!pass){
+        if (!pass && !fio ){
+            setError("Введите ФИО и пароль")
+            return false;
+            }
+        else if (!pass){
             setError("Введите пароль")
             return false;
             }
@@ -72,7 +75,10 @@ async function sendLoginInfo() {
 //
 //     }
     return (
-        <><form>
+        <>
+        <p></p>
+        <center><h2>Вход</h2></center>
+        <form className="form_login">
             <div className="input-box">
                 <label htmlFor="fio">ФИО </label>
                 <input type="text" onChange={(e)=>setFio(e.target.value)} placeholder="Иванов Иван Иванович" id="fio" name="fio"/>
@@ -83,14 +89,14 @@ async function sendLoginInfo() {
             </div>
 {/*             <button> Войти </button> */}
             <Button type="primary" onClick={sendLoginInfo} style={{ marginTop: 16 }} >
-                Войти
+                Начать экзамен
             </Button>
 
             {error && <p style={{color:'red'}}>{error}</p>}
 
-            <div className="register-link">
-                <p>  <a href="#">Создать нового пользователя</a></p>
-            </div>
+{/*             <div className="register-link"> */}
+{/*                 <p>  <a href="#">Создать нового пользователя</a></p> */}
+{/*             </div> */}
 
         </form>
 {/*         <br /> */}
