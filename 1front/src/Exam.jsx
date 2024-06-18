@@ -64,10 +64,8 @@ export const Exam = () => {
                 const year_2_digits = today.getFullYear().toString().substr(-2)
 //                 setNumProt(parseInt(`${year_2_digits}${today.getMonth()}${today.getDate()}${data.id}`))
 //                 console.log("prot", parseInt(`${year_2_digits}${today.getMonth()}${today.getDate()}${data.id}`));
-                setNumProt(parseInt(`${today.getTime()}${data.id}`))
-                console.log("prot", parseInt(`${today.getTime()}${data.id}`));
+                setNumProt(parseInt(`${today.getTime()-17187232000000}${data.id}`))
 
-                console.log("fio", data.fio);
                 }
             catch (error) {
                 localStorage.removeItem('token');
