@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react"
 import { Input, Radio, Space, Button, Alert, message, Table, Row, Col } from 'antd';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
 export const Exam = () => {
     const [value, setValue] = useState(null);
     const [messageApi, contextHolder] = message.useMessage();
+    const navigate = useNavigate()
     const onChange = (e) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
@@ -42,6 +44,39 @@ export const Exam = () => {
         setQuestionsForExam(questionsForExam);
     }
 
+
+
+    const verifyToken = async () => {
+        const token = localStorage.getItem('token');
+//         console.log(token)
+        if (token === "test"){
+            setFio("тест")
+            }
+        else {
+            try {
+                const response = await fetch(`http://localhost:8000/verify-token/${token}`);
+                if (!response.ok) {
+                    throw new Error('Token verification failed');
+                }
+                const data = await response.json()
+                setFio(data.fio)
+                const today = new Date();
+                const year_2_digits = today.getFullYear().toString().substr(-2)
+//                 setNumProt(parseInt(`${year_2_digits}${today.getMonth()}${today.getDate()}${data.id}`))
+//                 console.log("prot", parseInt(`${year_2_digits}${today.getMonth()}${today.getDate()}${data.id}`));
+                setNumProt(parseInt(`${today.getTime()}${data.id}`))
+                console.log("prot", parseInt(`${today.getTime()}${data.id}`));
+
+                console.log("fio", data.fio);
+                }
+            catch (error) {
+                localStorage.removeItem('token');
+                navigate("/");
+            }
+        }
+    }
+
+
     function getItem(label, key, icon, children, type) {
         return {
             key,
@@ -55,6 +90,7 @@ export const Exam = () => {
     const [questionsForExam, setQuestionsForExam] = useState([])
 
     useEffect(() => {
+        verifyToken()
         fetchQuestions()
     }, []);
 
@@ -63,6 +99,9 @@ export const Exam = () => {
    const [questionCheck, setQuestionCheck] = useState([])
    const [ansBlock, setAnsBlock] = useState(null)
    const [resToShow, setResToShow] = useState([])
+
+   const [fio, setFio] = useState('')
+   const [numProt, setNumProt] = useState(0)
 //    const [resToShow1, setResToShow1] = useState([])
 //    const [resToShow2, setResToShow2] = useState([])
 //    const numAns = 0; //считаем число верных ответов
@@ -202,8 +241,6 @@ const tableBlock = (<>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
         }
         else if (questions.length !== 0){
-            const numProt = 105;
-            const fio = "Иванов Иван Иванович"
             const data_to_send = {
                     num_prot: numProt,
                     fio: fio,
@@ -211,7 +248,9 @@ const tableBlock = (<>
                     res_to_show: resToShow
                     }
             console.log("data_to_send", data_to_send);
-            sendQuestions(data_to_send)
+            if (localStorage.getItem('token') !== "test"){
+                sendQuestions(data_to_send)
+                }
 //             const res1 = await axios({
 //                 method: "post",
 //                 url: "http://127.0.0.1:8000/write_res",
@@ -225,7 +264,11 @@ const tableBlock = (<>
                 <h4>Выполнил - {fio}</h4>
                 {tableBlock}
                 <p>Оценка - {countCorrect/questions.length*5}. ({countCorrect} из {questions.length})</p>
-                <p>Дата прохождения тестирования - {new Date().toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year:"numeric" })}</p></>}
+                <p>Дата прохождения тестирования - {new Date().toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year:"numeric" })}</p>
+                <Button  type="link" href="/" style={{ marginTop: 16 }} >
+                    Выход
+                </Button>
+                </>}
     }
     async function sendQuestions(data_to_send) {
             const res1 = await axios({
