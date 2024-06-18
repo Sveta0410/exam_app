@@ -10,7 +10,7 @@
 // export default App;
 import { useState, useEffect } from 'react'
 import { RouterProvider } from "react-router-dom";
-// import { router } from "./router";
+import { router } from "./routes";
 // import reactLogo from './assets/react.svg'
 
 import './App.css'
@@ -68,9 +68,9 @@ function App() {
   return (
 
     <>
-{/*     <RouterProvider router={router} /> */}
+    <RouterProvider router={router} />
 {/*     <Login/> */}
-    <Exam/>
+{/*     <Exam/> */}
 
 {/* <Button color="primary" className="px-4" */}
 {/*             onClick={routeChange} */}
@@ -78,10 +78,6 @@ function App() {
 {/*               Login */}
 {/*             </Button> */}
       <div className="App">
-{/*            тут была штука которая выводит все вопросы */}
-{/*           {questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>)} */}
-{/*          <WriteAns questions={questionsForExam} /> */}
-
       </div>
     </>
   )

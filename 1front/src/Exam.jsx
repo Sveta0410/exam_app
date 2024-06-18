@@ -202,7 +202,7 @@ const tableBlock = (<>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
         }
         else if (questions.length !== 0){
-            const numProt = 123;
+            const numProt = 105;
             const fio = "Иванов Иван Иванович"
             const data_to_send = {
                     num_prot: numProt,

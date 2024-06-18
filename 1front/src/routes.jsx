@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom"
-import { Login } from "Login.jsx"
-import { Exam } from "Exam.jsx"
+import { Login } from "./Login"
+import { Exam } from "./Exam"
 
 
 export const router = createBrowserRouter([
