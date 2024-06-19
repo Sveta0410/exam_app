@@ -4,12 +4,13 @@ const { Countdown } = Statistic;
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// const deadline = Date.now() + 1000 * 30
+// const deadline = Date.now() + 1000 * 10
 const deadline = Date.now() + 1000 * 60 * 10 // 10 минут
 
 export const Exam = () => {
     const [value, setValue] = useState(null);
     const [messageApi, contextHolder] = message.useMessage();
+    const [endExam, setEndExam] = useState(false);
     const navigate = useNavigate()
     const onChange = (e) => {
         console.log('radio checked', e.target.value);
@@ -39,7 +40,7 @@ export const Exam = () => {
 
 
     const onFinish = () => {
-      setQuestionIndex(questionsForExam.length)
+      setEndExam(true)
     };
 
     async function fetchQuestions() {
@@ -109,9 +110,6 @@ export const Exam = () => {
 
     const [fio, setFio] = useState('')
     const [numProt, setNumProt] = useState(0)
-//    const [resToShow1, setResToShow1] = useState([])
-//    const [resToShow2, setResToShow2] = useState([])
-//    const numAns = 0; //считаем число верных ответов
     const [first, setFirst] = useState(0)
     const tableBlock = (<>
             <Table
@@ -130,14 +128,7 @@ export const Exam = () => {
         const {questions} = props
         console.log('questions', questions);
 
-        if (questions.length !== 0 && questionIndex < questions.length){
-//             if (resToShow.length === 0 && first === 0){
-//                 setFirst(1)
-//                 for (let i = 0; i < questions.length; i++) {
-//                     resToShow.push({key: i+1, question: questions[i].id, answer: null, rightanswer: questions[i].rightanswer});
-//                 }
-//
-//             }
+        if (questions.length !== 0 && questionIndex < questions.length && !endExam){
             console.log(resToShow)
             const timerBlock = (<>
                 <Col  style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -264,14 +255,6 @@ export const Exam = () => {
             if (localStorage.getItem('token') !== "test"){
                 sendQuestions(data_to_send)
                 }
-//             const res1 = await axios({
-//                 method: "post",
-//                 url: "http://127.0.0.1:8000/write_res",
-//                 data = data_to_send
-//             }).then(res =>  res.data);
-//             console.log("erivgierjnvgibjfrtbiwe4bft", res1);
-//             setQuestionsForExam(questionsForExam);
-
             return <>
                 <h3>Протокол № {numProt}</h3>
                 <h4>Выполнил - {fio}</h4>
