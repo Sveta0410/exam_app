@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from "react"
-import { Input, Radio, Space, Button, Alert, message, Table, Row, Col } from 'antd';
+import { Input, Radio, Space, Button, Alert, message, Table, Row, Col, Statistic } from 'antd';
+const { Countdown } = Statistic;
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// const deadline = Date.now() + 1000 * 30
+const deadline = Date.now() + 1000 * 60 * 10 // 10 минут
 
 export const Exam = () => {
     const [value, setValue] = useState(null);
@@ -34,6 +37,10 @@ export const Exam = () => {
 
       }]
 
+
+    const onFinish = () => {
+      setQuestionIndex(questionsForExam.length)
+    };
 
     async function fetchQuestions() {
         const questionsForExam = await axios({
@@ -94,19 +101,19 @@ export const Exam = () => {
         fetchQuestions()
     }, []);
 
-   const [questionIndex, setQuestionIndex] = useState(0)
-   const [countCorrect, setCountCorrect] = useState(0)
-   const [questionCheck, setQuestionCheck] = useState([])
-   const [ansBlock, setAnsBlock] = useState(null)
-   const [resToShow, setResToShow] = useState([])
+    const [questionIndex, setQuestionIndex] = useState(0)
+    const [countCorrect, setCountCorrect] = useState(0)
+    const [questionCheck, setQuestionCheck] = useState([])
+    const [ansBlock, setAnsBlock] = useState(null)
+    const [resToShow, setResToShow] = useState([])
 
-   const [fio, setFio] = useState('')
-   const [numProt, setNumProt] = useState(0)
+    const [fio, setFio] = useState('')
+    const [numProt, setNumProt] = useState(0)
 //    const [resToShow1, setResToShow1] = useState([])
 //    const [resToShow2, setResToShow2] = useState([])
 //    const numAns = 0; //считаем число верных ответов
-   const [first, setFirst] = useState(0)
-const tableBlock = (<>
+    const [first, setFirst] = useState(0)
+    const tableBlock = (<>
             <Table
                 columns={columns}
                 dataSource={resToShow}
@@ -132,7 +139,13 @@ const tableBlock = (<>
 //
 //             }
             console.log(resToShow)
-            const questionBlock = (<><p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
+            const timerBlock = (<>
+                <Col  style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <Countdown title="Оставшееся время" value={deadline} onFinish={onFinish} />
+                </Col></>)
+            const questionBlock = (<>
+                <p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
+            const upperBlock = (<>{contextHolder}{timerBlock}{questionBlock}</>)
             const buttonsBlock = (<><p></p>
                <Button type="primary" onClick={toggleDisabledCheck} style={{ marginTop: 16 }} disabled={buttonDisabled}>
                 подтвердить ответ
@@ -151,7 +164,7 @@ const tableBlock = (<>
                </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
            else if (questions[questionIndex].answer4 == null){
-               return  <> {contextHolder}{questionBlock}
+               return  <> {upperBlock}
                 <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                     <Space direction="vertical">
                         <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
@@ -161,7 +174,7 @@ const tableBlock = (<>
              </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
             else if (questions[questionIndex].answer5 == null){
-               return  <> {contextHolder}{questionBlock}
+               return  <> {upperBlock}
                <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                    <Space direction="vertical">
                        <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
@@ -172,7 +185,7 @@ const tableBlock = (<>
                </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
             else if (questions[questionIndex].answer6 == null){
-               return  <> {contextHolder}{questionBlock}
+               return  <> {upperBlock}
                 <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                     <Space direction="vertical">
                         <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
@@ -184,7 +197,7 @@ const tableBlock = (<>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
             else if (questions[questionIndex].answer7 == null){
-               return  <> {contextHolder}{questionBlock}
+               return  <> {upperBlock}
                 <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                     <Space direction="vertical">
                         <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
@@ -197,7 +210,7 @@ const tableBlock = (<>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
             else if (questions[questionIndex].answer8 == null){
-                return  <> {contextHolder}{questionBlock}
+                return  <> {upperBlock}
                 <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                     <Space direction="vertical">
                         <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
@@ -211,7 +224,7 @@ const tableBlock = (<>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
             else if (questions[questionIndex].answer9 == null){
-                return  <> {contextHolder}{questionBlock}
+                return  <> {upperBlock}
                 <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                     <Space direction="vertical">
                         <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
@@ -225,7 +238,7 @@ const tableBlock = (<>
                     </Space>
                 </Radio.Group>{buttonsBlock}{ansBlock}</>;
            }
-            return  <> {contextHolder}{questionBlock}
+            return  <> {upperBlock}
                 <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled}>
                     <Space direction="vertical">
                         <Radio value={1}>1.  {questions[questionIndex].answer1}</Radio><p></p>
