@@ -4,7 +4,7 @@ const { Countdown } = Statistic;
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// const deadline = Date.now() + 1000 * 10
+// const deadline = Date.now() + 1000 * 70
 const deadline = Date.now() + 1000 * 60 * 10 // 10 минут
 
 export const Exam = () => {
@@ -42,6 +42,21 @@ export const Exam = () => {
     const onFinish = () => {
       setEndExam(true)
     };
+
+
+const onChangeTimer = (val) => {
+
+      if (typeof val === 'number' && 1000 * 59.97 < val && val < 1000 * 60 ) {
+
+      messageApi.open({
+          type: 'warning',
+          content: 'До окончания тестирования осталась одна минута',
+          duration: 10,
+        });
+
+//     messageApi.info('До окончания тестирования осталась одна минута');
+  }
+};
 
     async function fetchQuestions() {
         const questionsForExam = await axios({
@@ -102,6 +117,8 @@ export const Exam = () => {
         fetchQuestions()
     }, []);
 
+
+
     const [questionIndex, setQuestionIndex] = useState(0)
     const [countCorrect, setCountCorrect] = useState(0)
     const [questionCheck, setQuestionCheck] = useState([])
@@ -132,7 +149,7 @@ export const Exam = () => {
             console.log(resToShow)
             const timerBlock = (<>
                 <Col  style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Countdown title="Оставшееся время" value={deadline} onFinish={onFinish} format="mm:ss" />
+                    <Countdown title="Оставшееся время" value={deadline} onChange={onChangeTimer}  onFinish={onFinish} format="mm:ss" />
                 </Col></>)
             const questionBlock = (<>
                 <p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
