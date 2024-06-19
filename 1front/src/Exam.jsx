@@ -141,7 +141,7 @@ export const Exam = () => {
             console.log(resToShow)
             const timerBlock = (<>
                 <Col  style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Countdown title="Оставшееся время" value={deadline} onFinish={onFinish} />
+                    <Countdown title="Оставшееся время" value={deadline} onFinish={onFinish} format="mm:ss" />
                 </Col></>)
             const questionBlock = (<>
                 <p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
