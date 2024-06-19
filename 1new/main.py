@@ -129,13 +129,10 @@ def random_page(db: Session = Depends(functions.get_db)):
 
 @app.post("/write_res/")
 def save_res(res: schemas.GetResult,  db: Session = Depends(functions.get_db)):
-    # numProt: numProt,
-    # fio: fio,
-    # resToShow: resToShow,
-    # result: countCorrect / questions.length * 5
-    # db_user = functions.get_user_by_fio(db, fio=user.fio)
-    # if db_user:
-    #     raise HTTPException(status_code=400, detail="fio already registered")
-    # user.password = get_hashed_password(user.password)
-    print(res)
     return functions.save_result(db, res)
+
+
+@app.get("/get_all_users_fio", response_model=list[UserOut])
+def get_all_fio(db: Session = Depends(functions.get_db)):
+    all_users = functions.get_all_users(db)
+    return all_users

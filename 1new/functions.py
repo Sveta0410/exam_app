@@ -4,7 +4,7 @@ from jwt import InvalidTokenError
 from pydantic import ValidationError
 from sqlalchemy import func
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, load_only
 from passlib.context import CryptContext
 from sqlalchemy.sql.annotation import Annotated
 
@@ -76,6 +76,11 @@ def get_questions(db: Session):
     section4 = db.query(models.ExamTb).filter(models.ExamTb.section == 4).order_by(func.random()).limit(NUM_Q_4).all()
     section5 = db.query(models.ExamTb).filter(models.ExamTb.section == 5).order_by(func.random()).limit(NUM_Q_5).all()
     return section0 + section1 + section2 + section3 + section4 + section5
+
+
+def get_all_users(db: Session):
+    users = db.query(models.User).all()
+    return users
 
 
 def create_user(db: Session, user: schemas.UserCreate):
