@@ -61,7 +61,7 @@ const onChangeTimer = (val) => {
     async function fetchQuestions() {
         const questionsForExam = await axios({
             method: "get",
-            url: "http://127.0.0.1:8000/r",
+            url: "http://127.0.0.1:8000/random",
         }).then(res =>  res.data);
         console.log("erivgierjnvgibjfrtbiwe4bft", questionsForExam);
         setQuestionsForExam(questionsForExam);

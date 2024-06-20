@@ -10,7 +10,7 @@ import schemas
 from database import SessionLocal, engine
 from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from schemas import UserOut, TokenSchema, SystemUser, GetResult
+from schemas import UserOut, TokenSchema, GetResult
 from fastapi.middleware.cors import CORSMiddleware
 from functions import (
     get_hashed_password,
@@ -41,18 +41,7 @@ app.add_middleware(
 async def add_process_time_header(request: Request, call_next: Callable) -> Any:
     start_time = time.time()
     response = await call_next(request)
-
-    # logger.info(
-    #     f'method="{request.scope["method"]}" router="{request.scope["path"]}" '
-    #     f"process_time={round(time.time() - start_time, 3)} "
-    #     f"status_code={response.status_code}"
-    # )
     return response
-
-
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": "Welcome to your todo list."}
 
 
 @app.post("/signup/", summary="Create new user", response_model=schemas.User)
@@ -96,35 +85,13 @@ async def verify_user_token(token: str, db: Session = Depends(functions.get_db))
 
     return functions.verify_token(db, token)
 
-@app.get("/all")
-def all_page(db: Session = Depends(functions.get_db), current_user: UserOut = Depends(get_current_user)):
-    all_data = db.query(models.ExamTb).all()
-    return all_data
-    # return {
-    #     "data": [item.generate_dictionary() for item in all_data]
-    # }
-
 
 @app.get("/random")
-def random_page(db: Session = Depends(functions.get_db), current_user: UserOut = Depends(get_current_user)):
-    #all_data = db.query(models.ExamTb).all()
-    all_data = db.query(models.ExamTb).order_by(func.random()).first()
-    my_quiz = functions.get_questions(db)
-    return my_quiz
-    # return {
-    #     "Question": choice(all_data).generate_dictionary()
-    # }
-
-
-@app.get("/r")
 def random_page(db: Session = Depends(functions.get_db)):
     #all_data = db.query(models.ExamTb).all()
     all_data = db.query(models.ExamTb).order_by(func.random()).first()
     my_quiz = functions.get_questions(db)
     return my_quiz
-    # return {
-    #     "Question": choice(all_data).generate_dictionary()
-    # }
 
 
 @app.post("/write_res/")
