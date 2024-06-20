@@ -4,14 +4,24 @@ const { Countdown } = Statistic;
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// const deadline = Date.now() + 1000 * 70
-const deadline = Date.now() + 1000 * 60 * 10 // 10 минут
+const deadline = Date.now() + 1000 * 70
+// const deadline = Date.now() + 1000 * 60 * 10 // 10 минут
 
 export const Exam = () => {
     const [value, setValue] = useState(null);
     const [messageApi, contextHolder] = message.useMessage();
     const [endExam, setEndExam] = useState(false);
     const navigate = useNavigate()
+
+    const [questionsForExam, setQuestionsForExam] = useState([])
+    const [questionIndex, setQuestionIndex] = useState(0)
+    const [countCorrect, setCountCorrect] = useState(0)
+    const [ansBlock, setAnsBlock] = useState(null) // выводим верно/неверно после подтверждения ответа
+    const [resToShow, setResToShow] = useState([])
+
+    const [fio, setFio] = useState('')
+    const [numProt, setNumProt] = useState(0)
+
     const onChange = (e) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
@@ -44,19 +54,15 @@ export const Exam = () => {
     };
 
 
-const onChangeTimer = (val) => {
-
-      if (typeof val === 'number' && 1000 * 59.97 < val && val < 1000 * 60 ) {
-
-      messageApi.open({
-          type: 'warning',
-          content: 'До окончания тестирования осталась одна минута',
-          duration: 10,
-        });
-
-//     messageApi.info('До окончания тестирования осталась одна минута');
-  }
-};
+    const onChangeTimer = (val) => {
+        if (typeof val === 'number' && 1000 * 59.97 < val && val < 1000 * 60 ) {
+          messageApi.open({
+              type: 'warning',
+              content: 'До окончания тестирования осталась одна минута',
+              duration: 10,
+            });
+        }
+    };
 
     async function fetchQuestions() {
         const questionsForExam = await axios({
@@ -68,10 +74,8 @@ const onChangeTimer = (val) => {
     }
 
 
-
     const verifyToken = async () => {
         const token = localStorage.getItem('token');
-//         console.log(token)
         if (token === "test"){
             setFio("тест")
             }
@@ -110,7 +114,7 @@ const onChangeTimer = (val) => {
         };
     }
 
-    const [questionsForExam, setQuestionsForExam] = useState([])
+
 
     useEffect(() => {
         verifyToken()
@@ -119,15 +123,6 @@ const onChangeTimer = (val) => {
 
 
 
-    const [questionIndex, setQuestionIndex] = useState(0)
-    const [countCorrect, setCountCorrect] = useState(0)
-    const [questionCheck, setQuestionCheck] = useState([])
-    const [ansBlock, setAnsBlock] = useState(null)
-    const [resToShow, setResToShow] = useState([])
-
-    const [fio, setFio] = useState('')
-    const [numProt, setNumProt] = useState(0)
-    const [first, setFirst] = useState(0)
     const tableBlock = (<>
             <Table
                 columns={columns}

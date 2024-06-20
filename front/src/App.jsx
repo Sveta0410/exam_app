@@ -1,17 +1,6 @@
-// import React from 'react';
-// import { Button } from 'antd';
-//
-// const App = () => (
-//   <div className="App">
-//     <Button type="primary">Button</Button>
-//   </div>
-// );
-//
-// export default App;
 import { useState, useEffect } from 'react'
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
-// import reactLogo from './assets/react.svg'
 
 import './App.css'
 import {Login} from "./Login"
@@ -45,18 +34,13 @@ function App() {
                 return {label: c.exam_tb, key: c.rightanswer}
                 })
             )
-            ]
+        ]
         setQuestionsForExam(questionsForExam)
 
       })
   }
 
-//   useEffect(() => {
-//       fetchQuestions()
-//   }, []);
-
   function WriteAns(props) {
-//       questionsForExam.map(questionsForExam => <div>{questionsForExam.exam_tb}</div>
         const questions = props.questions;
       if (questionsForExam.answer4 == null){
             return <p>questionsForExam.answer4 is null</p>;
@@ -64,19 +48,9 @@ function App() {
        return <p>questionsForExam.answer4 </p>;
   }
 
-
   return (
-
     <>
     <RouterProvider router={router} />
-{/*     <Login/> */}
-{/*     <Exam/> */}
-
-{/* <Button color="primary" className="px-4" */}
-{/*             onClick={routeChange} */}
-{/*               > */}
-{/*               Login */}
-{/*             </Button> */}
       <div className="App">
       </div>
     </>
