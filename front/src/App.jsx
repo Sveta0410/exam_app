@@ -4,7 +4,6 @@ import { router } from "./routes";
 
 import './App.css'
 import {Login} from "./Login"
-import {Register} from "./Register"
 import {Exam} from "./Exam"
 import axios from "axios";
 

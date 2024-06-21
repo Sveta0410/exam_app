@@ -4,10 +4,10 @@ const { Countdown } = Statistic;
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const deadline = Date.now() + 1000 * 70
-// const deadline = Date.now() + 1000 * 60 * 10 // 10 минут
 
 export const Exam = () => {
+    const [deadline, setDeadline] = useState(); // для таймера
+
     const [value, setValue] = useState(null);
     const [messageApi, contextHolder] = message.useMessage();
     const [endExam, setEndExam] = useState(false);
@@ -119,6 +119,7 @@ export const Exam = () => {
     useEffect(() => {
         verifyToken()
         fetchQuestions()
+        setDeadline(Date.now() +  1000 * 60 * 10) // 10 минут
     }, []);
 
 
