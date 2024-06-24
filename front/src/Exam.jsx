@@ -159,7 +159,7 @@ export const Exam = () => {
               </Button></>
             )
            if (questions[questionIndex].answer3 == null){
-               return <>{contextHolder}{questionBlock}
+               return <>{upperBlock}
                <Radio.Group name = "my_radio" onChange={onChange} value={value} disabled={disabled} >
                    <Space direction="vertical">
                        <Radio value={1}>1.  {questions[questionIndex].answer1}  </Radio><p></p>
