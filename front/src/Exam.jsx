@@ -69,7 +69,7 @@ export const Exam = () => {
             method: "get",
             url: "http://127.0.0.1:8000/random",
         }).then(res =>  res.data);
-        console.log("erivgierjnvgibjfrtbiwe4bft", questionsForExam);
+        console.log("questionsForExam", questionsForExam);
         setQuestionsForExam(questionsForExam);
     }
 
@@ -148,7 +148,7 @@ export const Exam = () => {
                     <Countdown title="Оставшееся время" value={deadline} onChange={onChangeTimer}  onFinish={onFinish} format="mm:ss" />
                 </Col></>)
             const questionBlock = (<>
-                <p>Вопрос №{questionIndex+1}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
+                <p>Вопрос №{questionIndex+1}/{questions.length}</p><h3>{questions[questionIndex].exam_tb} </h3></>)
             const upperBlock = (<>{contextHolder}{timerBlock}{questionBlock}</>)
             const buttonsBlock = (<><p></p>
                <Button type="primary" onClick={toggleDisabledCheck} style={{ marginTop: 16 }} disabled={buttonDisabled}>
